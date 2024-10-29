@@ -9,8 +9,12 @@ module.exports = {
   ],
   presets: [require("nativewind/preset")],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        poppins: ["poppins", "san-serif"],
+      },
+    },
   },
   plugins: [],
-  darkMode: 'class',
-}
+  darkMode: "class",
+};
