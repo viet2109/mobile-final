@@ -1,4 +1,4 @@
-package matcha.project.be.entity;
+package matcha.project.be.database.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -9,23 +9,23 @@ import java.io.Serializable;
 
 @Entity
 @Data
-@Table(name = "t_user")
-public class UserEntity implements Serializable {
+@Table(name = "t_country")
+public class CountryEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
     @Column(name = "id")
-    private String id;
+    private Integer id;
 
-    @Column(name = "username")
-    private String username;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "password")
-    private String password;
+    @Column(name = "image")
+    private String image;
 
-    @Column(name = "pin")
-    private String pin;
+    @Column(name = "telephone_code")
+    private String telephoneCode;
 
     @Embedded
     private SystemField systemField;
