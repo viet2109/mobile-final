@@ -4,7 +4,15 @@
     "slug": "banking-app",
     "plugins": [
       "expo-router",
-      "expo-font"
+      "expo-font",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow Banking app to access your camera",
+          "microphonePermission": "Allow banking app to access your microphone",
+          "recordAudioAndroid": true
+        }
+      ]
     ],
     "scheme": "banking-app-scheme",
     "version": "1.0.0",
@@ -23,7 +31,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.anonymous.bankingapp"
     },
     "web": {
       "favicon": "./assets/images/favicon.png",
