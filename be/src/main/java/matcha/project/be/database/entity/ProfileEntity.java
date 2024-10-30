@@ -1,4 +1,4 @@
-package matcha.project.be.entity;
+package matcha.project.be.database.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
