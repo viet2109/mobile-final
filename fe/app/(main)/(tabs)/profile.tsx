@@ -53,7 +53,7 @@ function Profile() {
           {/* feature */}
           <View className="flex flex-col justify-between items-center bg-white dark:bg-[#2A2A2A] px-8 rounded-xl">
             {/* dark mode */}
-            <View className="flex flex-row justify-between w-full items-center py-2 border-b dark:border-white border-slate-400">
+            <View className="flex flex-row justify-between w-full items-center py-4 border-b dark:border-white border-slate-400">
               <View className="flex flex-row items-center gap-3">
                 <Material
                   name="bedtime"

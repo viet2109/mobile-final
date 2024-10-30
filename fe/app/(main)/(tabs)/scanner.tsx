@@ -11,16 +11,16 @@ import {
 import { Overlay } from "../../../components/overlay";
 
 const Scanner: React.FC = () => {
-  const qrLock = useRef<boolean>(false);
+  const isQrLock = useRef<boolean>(false);
   const appState = useRef(AppState.currentState);
   const [, requestPermission] = useCameraPermissions();
-  const [, setLoading] = useState<boolean>(true);
+  const [, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     (async () => {
       const { status } = await requestPermission();
       if (status === "granted") {
-        setLoading(false);
+        setIsLoading(false);
       } else {
         console.log("Camera permission denied");
       }
@@ -31,7 +31,7 @@ const Scanner: React.FC = () => {
         appState.current.match(/inactive|background/) &&
         nextAppState === "active"
       ) {
-        qrLock.current = false;
+        isQrLock.current = false;
       }
       appState.current = nextAppState;
     });
@@ -42,8 +42,8 @@ const Scanner: React.FC = () => {
   }, [requestPermission]);
 
   const handleBarcodeScanned = async ({ data }: { data: string }) => {
-    if (data && !qrLock.current) {
-      qrLock.current = true;
+    if (data && !isQrLock.current) {
+      isQrLock.current = true;
 
       try {
         // await Linking.openURL(data);
@@ -52,7 +52,7 @@ const Scanner: React.FC = () => {
         console.error("Failed to open URL:", error);
       } finally {
         setTimeout(() => {
-          qrLock.current = false;
+          isQrLock.current = false;
         }, 1000);
       }
     }
