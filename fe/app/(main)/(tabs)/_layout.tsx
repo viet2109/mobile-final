@@ -1,6 +1,5 @@
-import Ant from "@expo/vector-icons/AntDesign";
-import Material from "@expo/vector-icons/MaterialIcons";
 import { Tabs } from "expo-router";
+import Tabbar from "../../../components/tabbar";
 import { useColorScheme } from "nativewind";
 
 export default function TabLayout() {
@@ -9,10 +8,11 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: "#3b82f6",
-        tabBarStyle: {
-          backgroundColor: `${colorScheme == "dark" ? "#121212" : "#f0f0f0"}`,
-        },
         tabBarShowLabel: false,
+      }}
+      tabBar={(props) => <Tabbar {...props} />}
+      sceneContainerStyle={{
+        backgroundColor: colorScheme === "dark" ? "#121212" : "#f2f2f2",
       }}
     >
       <Tabs.Screen
@@ -20,20 +20,13 @@ export default function TabLayout() {
         options={{
           title: "Home",
           headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <Ant size={28} name="home" color={color} />
-          ),
         }}
       />
-
       <Tabs.Screen
         name="scanner"
         options={{
           title: "Scanner",
           headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <Material size={28} name="qr-code-scanner" color={color} />
-          ),
         }}
       />
       <Tabs.Screen
@@ -41,9 +34,6 @@ export default function TabLayout() {
         options={{
           title: "Profile",
           headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <Ant size={28} name="user" color={color} />
-          ),
         }}
       />
     </Tabs>

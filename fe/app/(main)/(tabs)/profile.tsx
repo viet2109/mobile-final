@@ -1,12 +1,17 @@
 import Material from "@expo/vector-icons/MaterialIcons";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { Image, ScrollView, Switch, Text, View } from "react-native";
 import { useColorScheme } from "nativewind";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 function Profile() {
   const { colorScheme, toggleColorScheme } = useColorScheme();
+  const [isDarkMode, setIsDarkMode] = useState(colorScheme === "dark");
 
+  const handleToggle = useCallback(() => {
+    setIsDarkMode(!isDarkMode);
+    toggleColorScheme();
+  }, [isDarkMode, toggleColorScheme]);
   return (
     <>
       <SafeAreaView className="flex-1 dark:bg-dark-bg">
@@ -15,10 +20,10 @@ function Profile() {
           <View className="flex flex-row justify-between items-center mb-6">
             <Material
               name="arrow-back-ios"
-              size={18}
+              size={20}
               className="dark:!text-white"
             />
-            <Text className="dark:text-white font-semibold text-lg font-poppins">
+            <Text className="dark:text-white font-semibold text-2xl -translate-x-3 font-poppins">
               My Profile
             </Text>
             <Text></Text>
@@ -53,19 +58,16 @@ function Profile() {
           {/* feature */}
           <View className="flex flex-col justify-between items-center bg-white dark:bg-[#2A2A2A] px-8 rounded-xl">
             {/* dark mode */}
-            <View className="flex flex-row justify-between w-full items-center py-4 border-b dark:border-white border-slate-400">
+            <View className="flex flex-row justify-between w-full items-center py-2 border-b dark:border-white border-slate-400">
               <View className="flex flex-row items-center gap-3">
                 <Material
                   name="bedtime"
                   size={18}
-                  className="bg-slate-200 text-gray-800 p-2 rounded-full"
+                  className="bg-slate-200 !text-gray-800 p-2 rounded-full"
                 />
                 <Text className="dark:text-white font-poppins">Dark mode</Text>
               </View>
-              <Switch
-                value={colorScheme == "dark"}
-                onChange={toggleColorScheme}
-              />
+              <Switch value={isDarkMode} onChange={handleToggle} />
             </View>
 
             {/* personal info */}
@@ -74,7 +76,7 @@ function Profile() {
                 <Material
                   name="person"
                   size={18}
-                  className="p-2 rounded-full bg-blue-100 text-blue-500"
+                  className="p-2 rounded-full bg-blue-100 !text-blue-500"
                 />
                 <Text className="dark:text-white font-poppins">
                   Personal Info
@@ -93,7 +95,7 @@ function Profile() {
                 <Material
                   name="account-balance"
                   size={18}
-                  className="p-2 rounded-full bg-yellow-100 text-yellow-500"
+                  className="p-2 rounded-full bg-yellow-100 !text-yellow-500"
                 />
                 <Text className="dark:text-white font-poppins">
                   Bank & Cards
@@ -112,7 +114,7 @@ function Profile() {
                 <Material
                   name="payments"
                   size={18}
-                  className="p-2 rounded-full bg-red-100 text-red-500"
+                  className="p-2 rounded-full bg-red-100 !text-red-500"
                 />
                 <Text className="dark:text-white font-poppins">
                   Transaction
@@ -131,7 +133,7 @@ function Profile() {
                 <Material
                   name="settings"
                   size={18}
-                  className="p-2 rounded-full bg-blue-100 text-blue-500"
+                  className="p-2 rounded-full bg-blue-100 !text-blue-500"
                 />
                 <Text className="dark:text-white font-poppins">Settings</Text>
               </View>
@@ -148,7 +150,7 @@ function Profile() {
                 <Material
                   name="storage"
                   size={18}
-                  className="p-2 rounded-full bg-green-200 text-green-500"
+                  className="p-2 rounded-full bg-green-200 !text-green-500"
                 />
                 <Text className="dark:text-white font-poppins">
                   Data privacy
