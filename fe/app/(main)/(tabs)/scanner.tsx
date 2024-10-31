@@ -57,8 +57,6 @@ const Scanner: React.FC = () => {
       }
     }
   };
-  console.log(Platform.OS);
-
 
   return (
     <SafeAreaView style={StyleSheet.absoluteFillObject}>
@@ -67,8 +65,8 @@ const Scanner: React.FC = () => {
           headerShown: false,
         }}
       />
-      
-      {Platform.OS === "android" ? <StatusBar hidden /> : null}
+
+      {/* {Platform.OS === "android" ? <StatusBar hidden /> : null} */}
       <CameraView
         style={StyleSheet.absoluteFillObject}
         facing="back"

@@ -9,6 +9,7 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: "#3b82f6",
         tabBarShowLabel: false,
+        headerShown: false
       }}
       tabBar={(props) => <Tabbar {...props} />}
       sceneContainerStyle={{

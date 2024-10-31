@@ -1,29 +1,44 @@
 import Material from "@expo/vector-icons/MaterialIcons";
-import React, { useCallback, useState } from "react";
-import { Image, ScrollView, Switch, Text, View } from "react-native";
+import { useRouter } from "expo-router";
 import { useColorScheme } from "nativewind";
+import React, { useCallback, useState } from "react";
+import {
+  Image,
+  ScrollView,
+  Switch,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 function Profile() {
   const { colorScheme, toggleColorScheme } = useColorScheme();
   const [isDarkMode, setIsDarkMode] = useState(colorScheme === "dark");
-
+  const router = useRouter();
   const handleToggle = useCallback(() => {
     setIsDarkMode(!isDarkMode);
     toggleColorScheme();
   }, [isDarkMode, toggleColorScheme]);
   return (
     <>
-      <SafeAreaView className="flex-1 dark:bg-dark-bg">
-        <ScrollView className="p-4 pt-8">
+      <SafeAreaView className="flex-1 p-4">
+        <ScrollView>
           {/* header */}
           <View className="flex flex-row justify-between items-center mb-6">
-            <Material
-              name="arrow-back-ios"
-              size={20}
-              className="dark:!text-white"
-            />
-            <Text className="dark:text-white font-semibold text-2xl -translate-x-3 font-poppins">
+            <TouchableOpacity
+              onPress={() => router.back()}
+              className="flex-row items-center "
+            >
+              <Material
+                name="arrow-back"
+                size={26}
+                color="black"
+                className="dark:!text-white"
+              />
+            </TouchableOpacity>
+
+            <Text className="dark:text-white font-semibold text-2xl -translate-x-4 font-poppins">
               My Profile
             </Text>
             <Text></Text>
