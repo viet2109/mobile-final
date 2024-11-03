@@ -24,7 +24,7 @@ const Index = () => {
     if (hasSeenOnboarding === null) {
       router.replace('onBoarding');
     } else {
-      router.replace('onBoarding');
+      router.replace('welcome');
     }
   };
 
@@ -32,7 +32,7 @@ const Index = () => {
     <>
       <Stack.Screen options={{ headerShown: false }} />
        <Animated.View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', opacity }}>
-      <Text className="text-4xl text-white font-bold">Banking App</Text>
+      <Text className="text-4xl text-green font-bold">Banking App</Text>
     </Animated.View>
    </>
   );
