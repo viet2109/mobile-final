@@ -8,10 +8,6 @@ const Welcome = () => {
   const router = useRouter();
   
 
-  
-
-  
-
   return (
     <>
             <Stack.Screen options={{ headerShown: false,

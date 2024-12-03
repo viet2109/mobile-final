@@ -31,7 +31,7 @@ export default function Layout() {
   return (
     <Stack screenOptions={{ headerShown: false }}  >
       <Stack.Screen name="(main)/(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="adding_card"options={{ headerShown: false }}  />
+      {/* <Stack.Screen name="adding_card"options={{ headerShown: false }}  /> */}
       <Stack.Screen name="adding_card/card_input" />
       <Stack.Screen name="adding_card/code_verify" />
       <Stack.Screen name="adding_card/card_list" />
