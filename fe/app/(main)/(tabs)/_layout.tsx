@@ -1,6 +1,7 @@
 import { Tabs } from "expo-router";
 import Tabbar from "../../../components/tabbar";
 import { useColorScheme } from "nativewind";
+import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 
 export default function TabLayout() {
   const { colorScheme } = useColorScheme();
@@ -9,9 +10,12 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: "#3b82f6",
         tabBarShowLabel: false,
-        headerShown: false
+        headerShown: false,
+        // tabBarStyle: {
+        //   backgroundColor: colorScheme === "dark" ? "#121212" : "#f2f2f2",
+        // },
       }}
-      tabBar={(props) => <Tabbar {...props} />}
+      tabBar={(props: BottomTabBarProps) => <Tabbar {...props} />}
       sceneContainerStyle={{
         backgroundColor: colorScheme === "dark" ? "#121212" : "#f2f2f2",
       }}
