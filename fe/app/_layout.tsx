@@ -29,8 +29,11 @@ export default function Layout() {
   }
 
   return (
-    <Stack>
-      <Stack.Screen name="(main)/(tabs)" options={{ headerShown: false }} />
-    </Stack>
+    <Stack
+    screenOptions={{
+      headerShown: false,
+    }}
+  />
+    
   );
 }
