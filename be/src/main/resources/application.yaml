@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: ${DATABASE_URL}
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
+    url: "jdbc:postgresql://dpg-cti392t6l47c738ejoo0-a.oregon-postgres.render.com/banking_om3j"
+    username: "banking_om3j_user"
+    password: "iz2Jvhr9VmwpNqnUHJTnD9TNPLMvP6J1"
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
