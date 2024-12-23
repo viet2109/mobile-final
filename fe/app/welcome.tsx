@@ -1,6 +1,7 @@
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 import { Stack, useRouter } from "expo-router";
+import React from "react";
 const Welcome = () => {
   const router = useRouter();
 
@@ -42,14 +43,9 @@ const Welcome = () => {
         </View>
 
         <View className=" w-full items-center mt-10">
-<<<<<<< HEAD
-          <TouchableOpacity className="bg-blue-bg py-3 px-6 rounded-full w-4/5"
-            onPress={()=> router.push('login')}
-=======
           <TouchableOpacity
             className="bg-blue-bg py-3 px-6 rounded-full w-4/5"
             onPress={() => router.push("home")}
->>>>>>> main
           >
             <Text className="text-white text-lg font-bold text-center ">
               Continue
