@@ -23,6 +23,16 @@ export default function TabLayout() {
           headerShown: false,
         }}
       />
+
+    <Tabs.Screen
+        name="spending"
+        options={{
+          title: "Spending",
+          headerShown: false,
+        }}
+      />
+
+
       <Tabs.Screen
         name="scanner"
         options={{
