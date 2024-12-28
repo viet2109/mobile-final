@@ -34,11 +34,11 @@ function Profile() {
                 name="arrow-back"
                 size={26}
                 color="black"
-                className="dark:!text-white"
+                className="dark:!text-gray-400"
               />
             </TouchableOpacity>
 
-            <Text className="dark:text-white font-semibold text-2xl -translate-x-4 font-poppins">
+            <Text className="dark:text-gray-400 font-semibold text-2xl -translate-x-4 ">
               My Profile
             </Text>
             <Text></Text>
@@ -50,7 +50,7 @@ function Profile() {
               <Material
                 name="edit-note"
                 size={28}
-                className="dark:!text-white"
+                className="dark:!text-gray-400"
               />
             </View>
             <View className="flex flex-col text-center items-center gap-1">
@@ -60,101 +60,101 @@ function Profile() {
                 }}
                 className="w-16 aspect-square rounded-full"
               />
-              <Text className="dark:text-white font-semibold text-[16px] font-poppins">
+              <Text className="dark:text-white font-semibold text-[16px] ">
                 Nguyen Hoang Viet
               </Text>
-              <Text className=" text-gray-400 font-poppins">
+              <Text className=" text-gray-400 ">
                 nguyenhoangviet@gmail.com
               </Text>
-              <Text className=" text-gray-400 font-poppins">0548228834</Text>
+              <Text className=" text-gray-400 ">0548228834</Text>
             </View>
           </View>
 
           {/* feature */}
           <View className="flex flex-col justify-between items-center bg-white dark:bg-[#2A2A2A] px-8 rounded-xl">
             {/* dark mode */}
-            <View className="flex flex-row justify-between w-full items-center py-2 border-b dark:border-white border-slate-400">
+            <View className="flex flex-row justify-between w-full items-center py-2 border-b  border-slate-400">
               <View className="flex flex-row items-center gap-3">
                 <Material
                   name="bedtime"
                   size={18}
                   className="bg-slate-200 !text-gray-800 p-2 rounded-full"
                 />
-                <Text className="dark:text-white font-poppins">Dark mode</Text>
+                <Text className="dark:text-gray-400 ">Dark mode</Text>
               </View>
               <Switch value={isDarkMode} onChange={handleToggle} />
             </View>
 
             {/* personal info */}
-            <View className="flex flex-row justify-between w-full items-center py-4 border-b dark:border-white border-slate-400">
+            <View className="flex flex-row justify-between w-full items-center py-4 border-b  border-slate-400">
               <View className="flex flex-row items-center gap-3">
                 <Material
                   name="person"
                   size={18}
                   className="p-2 rounded-full bg-blue-100 !text-blue-500"
                 />
-                <Text className="dark:text-white font-poppins">
+                <Text className="dark:text-gray-400 ">
                   Personal Info
                 </Text>
               </View>
               <Material
                 name="arrow-forward-ios"
-                className="dark:!text-white"
+                className="dark:!text-gray-400"
                 size={18}
               />
             </View>
 
             {/* bank & card */}
-            <View className="flex flex-row justify-between w-full items-center py-4 border-b dark:border-white border-slate-400">
+            <View className="flex flex-row justify-between w-full items-center py-4 border-b  border-slate-400">
               <View className="flex flex-row items-center gap-3">
                 <Material
                   name="account-balance"
                   size={18}
                   className="p-2 rounded-full bg-yellow-100 !text-yellow-500"
                 />
-                <Text className="dark:text-white font-poppins">
+                <Text className="dark:text-gray-400 ">
                   Bank & Cards
                 </Text>
               </View>
               <Material
                 name="arrow-forward-ios"
-                className="dark:!text-white"
+                className="dark:!text-gray-400"
                 size={18}
               />
             </View>
 
             {/* transaction */}
-            <View className="flex flex-row justify-between w-full items-center py-4 border-b dark:border-white border-slate-400">
+            <View className="flex flex-row justify-between w-full items-center py-4 border-b  border-slate-400">
               <View className="flex flex-row items-center gap-3">
                 <Material
                   name="payments"
                   size={18}
                   className="p-2 rounded-full bg-red-100 !text-red-500"
                 />
-                <Text className="dark:text-white font-poppins">
+                <Text className="dark:text-gray-400 ">
                   Transaction
                 </Text>
               </View>
               <Material
                 name="arrow-forward-ios"
-                className="dark:!text-white"
+                className="dark:!text-gray-400"
                 size={18}
               />
             </View>
 
             {/* settings */}
-            <View className="flex flex-row justify-between w-full items-center py-4 border-b dark:border-white border-slate-400">
+            <View className="flex flex-row justify-between w-full items-center py-4 border-b  border-slate-400">
               <View className="flex flex-row items-center gap-3">
                 <Material
                   name="settings"
                   size={18}
                   className="p-2 rounded-full bg-blue-100 !text-blue-500"
                 />
-                <Text className="dark:text-white font-poppins">Settings</Text>
+                <Text className="dark:text-gray-400 ">Settings</Text>
               </View>
               <Material
                 name="arrow-forward-ios"
-                className="dark:!text-white"
+                className="dark:!text-gray-400"
                 size={18}
               />
             </View>
@@ -167,13 +167,13 @@ function Profile() {
                   size={18}
                   className="p-2 rounded-full bg-green-200 !text-green-500"
                 />
-                <Text className="dark:text-white font-poppins">
+                <Text className="dark:text-gray-400 ">
                   Data privacy
                 </Text>
               </View>
               <Material
                 name="arrow-forward-ios"
-                className="dark:!text-white"
+                className="dark:!text-gray-400"
                 size={18}
               />
             </View>
