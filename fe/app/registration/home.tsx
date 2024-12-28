@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { Image, Text, View, TouchableOpacity, StyleSheet } from "react-native";
 
-const Registration = () => {
+const Registration = ({onClickSignUp = () => {}}) => {
   const router = useRouter();
   return (
     <View className="display flex flex-col justify-between bg-white flex-1">
@@ -22,7 +22,7 @@ const Registration = () => {
         <View className=" w-full items-center mt-10">
           <TouchableOpacity
             className="bg-blue-bg py-3 px-6 rounded-full w-4/5"
-            onPress={() => router.push("/registration/create")}
+            onPress={onClickSignUp}
           >
             <Text className="text-white text-lg font-bold text-center ">
               Sign up
@@ -33,7 +33,7 @@ const Registration = () => {
         <View className=" w-full items-center mt-4 ">
           <TouchableOpacity
             className="py-3 px-6 rounded-full w-4/5 bg-white border border-blue-bg"
-            onPress={() => router.push("registration")}
+            onPress={() => router.push("home")}
           >
             <Text className="text-blue-bg text-lg font-bold text-center">
               Log in
