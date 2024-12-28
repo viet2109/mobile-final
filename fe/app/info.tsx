@@ -11,16 +11,16 @@ import Material from "@expo/vector-icons/MaterialIcons";
 import { useRouter } from "expo-router";
 import dayjs from "dayjs";
 import DateTimePicker, { DateType, ModeType } from "react-native-ui-datepicker";
-import {
-  Button,
-  List,
-  Modal,
-  Provider,
-  Switch,
-  Toast,
-  WhiteSpace,
-  WingBlank,
-} from "@ant-design/react-native";
+// import {
+//   Button,
+//   List,
+//   Modal,
+//   Provider,
+//   Switch,
+//   Toast,
+//   WhiteSpace,
+//   WingBlank,
+// } from "@ant-design/react-native";
 
 const Info = () => {
   const router = useRouter();
@@ -44,7 +44,6 @@ const Info = () => {
   );
 
   return (
-    <Provider>
       <SafeAreaView className="flex-1 p-4">
         <ScrollView>
           {/* Header */}
@@ -159,7 +158,7 @@ const Info = () => {
           </View>
         </ScrollView>
 
-        <Modal
+        {/* <Modal
           visible={showDatePicker}
           transparent
           onClose={() => setShowDatePicker(false)}
@@ -170,9 +169,8 @@ const Info = () => {
           ]}
         >
           <DateTimePicker mode="single" date={date} onChange={onChange} />
-        </Modal>
+        </Modal> */}
       </SafeAreaView>
-    </Provider>
   );
 };
 
