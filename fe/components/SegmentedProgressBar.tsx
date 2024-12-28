@@ -2,20 +2,19 @@ import React from 'react';
 import { View, StyleSheet, ViewStyle } from 'react-native';
 
 interface SegmentedProgressBarProps {
-  segments: number[]; // Mảng đại diện cho các phân đoạn
-  activeIndex: number; // Chỉ mục của phân đoạn hiện tại
+  len: number;
+  activeIndex: number;
 }
 
-const SegmentedProgressBar: React.FC<SegmentedProgressBarProps> = ({ segments, activeIndex }) => {
+const SegmentedProgressBar: React.FC<SegmentedProgressBarProps> = ({ len, activeIndex }) => {
   return (
     <View style={styles.container}>
-      {segments.map((_, index) => (
+      {Array.from({ length: len }).map((_, index) => (
         <View
           key={index}
           style={[
             styles.segment,
-            index < activeIndex && styles.activeSegment,
-            index === activeIndex && styles.currentSegment,
+            index <= activeIndex && styles.currentSegment,
           ]}
         />
       ))}
@@ -35,10 +34,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#E0E0E0',
   } as ViewStyle,
   activeSegment: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#304FFE',
   } as ViewStyle,
   currentSegment: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#304FFE',
   } as ViewStyle,
 });
 
