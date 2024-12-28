@@ -108,11 +108,11 @@ function Profile() {
                 name="arrow-back"
                 size={26}
                 color="black"
-                className="dark:!text-white"
+                className="dark:!text-gray-400"
               />
             </TouchableOpacity>
 
-            <Text className="dark:text-white font-semibold text-2xl -translate-x-4 font-poppins">
+            <Text className="dark:text-gray-400 font-semibold text-2xl -translate-x-4 ">
               My Profile
             </Text>
             <Text></Text>
@@ -124,7 +124,7 @@ function Profile() {
               <Material
                 name="edit-note"
                 size={28}
-                className="dark:!text-white"
+                className="dark:!text-gray-400"
               />
             </View>
             <View className="flex flex-col text-center items-center gap-1">
@@ -134,13 +134,13 @@ function Profile() {
                 }}
                 className="w-16 aspect-square rounded-full"
               />
-              <Text className="dark:text-white font-semibold text-[16px] font-poppins">
+              <Text className="dark:text-white font-semibold text-[16px] ">
                 Nguyen Hoang Viet
               </Text>
-              <Text className=" text-gray-400 font-poppins">
+              <Text className=" text-gray-400 ">
                 nguyenhoangviet@gmail.com
               </Text>
-              <Text className=" text-gray-400 font-poppins">0548228834</Text>
+              <Text className=" text-gray-400 ">0548228834</Text>
             </View>
           </View>
 

@@ -33,6 +33,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.74.5",
+    "react-native-country-flag": "^2.0.2",
+    "react-native-dropdown-picker": "^5.4.6",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-modal": "^13.0.1",
     "react-native-otp-entry": "^1.8.2",
