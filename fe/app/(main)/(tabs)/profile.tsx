@@ -11,20 +11,94 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Feature } from "../../../types";
 
 function Profile() {
   const { colorScheme, toggleColorScheme } = useColorScheme();
   const [isDarkMode, setIsDarkMode] = useState(colorScheme === "dark");
   const router = useRouter();
+
   const handleToggle = useCallback(() => {
     setIsDarkMode(!isDarkMode);
     toggleColorScheme();
   }, [isDarkMode, toggleColorScheme]);
+
+  // Array of features
+  const features: Feature[] = [
+    {
+      iconName: "bedtime",
+      iconColor: "bg-slate-200 !text-gray-800",
+      title: "Dark mode",
+      action: <Switch value={isDarkMode} onChange={handleToggle} />,
+    },
+    {
+      iconName: "person",
+      iconColor: "bg-blue-100 !text-blue-500",
+      title: "Personal Info",
+      action: (
+        <Material
+          name="arrow-forward-ios"
+          className="dark:!text-white"
+          size={18}
+        />
+      ),
+      onClick: () => router.push("info"),
+    },
+    {
+      iconName: "account-balance",
+      iconColor: "bg-yellow-100 !text-yellow-500",
+      title: "Bank & Cards",
+      action: (
+        <Material
+          name="arrow-forward-ios"
+          className="dark:!text-white"
+          size={18}
+        />
+      ),
+    },
+    {
+      iconName: "payments",
+      iconColor: "bg-red-100 !text-red-500",
+      title: "Transaction",
+      action: (
+        <Material
+          name="arrow-forward-ios"
+          className="dark:!text-white"
+          size={18}
+        />
+      ),
+    },
+    {
+      iconName: "settings",
+      iconColor: "bg-blue-100 !text-blue-500",
+      title: "Settings",
+      action: (
+        <Material
+          name="arrow-forward-ios"
+          className="dark:!text-white"
+          size={18}
+        />
+      ),
+    },
+    {
+      iconName: "storage",
+      iconColor: "bg-green-200 !text-green-500",
+      title: "Data privacy",
+      action: (
+        <Material
+          name="arrow-forward-ios"
+          className="dark:!text-white"
+          size={18}
+        />
+      ),
+    },
+  ];
+
   return (
     <>
       <SafeAreaView className="flex-1 p-4">
         <ScrollView>
-          {/* header */}
+          {/* Header */}
           <View className="flex flex-row justify-between items-center mb-6">
             <TouchableOpacity
               onPress={() => router.back()}
@@ -44,7 +118,7 @@ function Profile() {
             <Text></Text>
           </View>
 
-          {/* description */}
+          {/* Description */}
           <View className="flex flex-col justify-between items-center bg-white  dark:bg-[#2A2A2A] p-4 rounded-xl mb-4">
             <View className="w-full flex flex-row justify-end">
               <Material
@@ -70,113 +144,35 @@ function Profile() {
             </View>
           </View>
 
-          {/* feature */}
+          {/* Features */}
           <View className="flex flex-col justify-between items-center bg-white dark:bg-[#2A2A2A] px-8 rounded-xl">
-            {/* dark mode */}
-            <View className="flex flex-row justify-between w-full items-center py-2 border-b  border-slate-400">
-              <View className="flex flex-row items-center gap-3">
-                <Material
-                  name="bedtime"
-                  size={18}
-                  className="bg-slate-200 !text-gray-800 p-2 rounded-full"
-                />
-                <Text className="dark:text-gray-400 ">Dark mode</Text>
+            {features.map((feature, index) => (
+              <View
+                key={index}
+                className={`flex flex-row justify-between w-full items-center py-4 ${
+                  index !== features.length - 1
+                    ? "border-b dark:border-white border-slate-400"
+                    : ""
+                }`}
+              >
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => feature.onClick && feature.onClick()}
+                >
+                  <View className="flex flex-row items-center gap-3">
+                    <Material
+                      name={feature.iconName}
+                      size={18}
+                      className={`p-2 rounded-full ${feature.iconColor}`}
+                    />
+                    <Text className="dark:text-white font-poppins">
+                      {feature.title}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                {feature.action}
               </View>
-              <Switch value={isDarkMode} onChange={handleToggle} />
-            </View>
-
-            {/* personal info */}
-            <View className="flex flex-row justify-between w-full items-center py-4 border-b  border-slate-400">
-              <View className="flex flex-row items-center gap-3">
-                <Material
-                  name="person"
-                  size={18}
-                  className="p-2 rounded-full bg-blue-100 !text-blue-500"
-                />
-                <Text className="dark:text-gray-400 ">
-                  Personal Info
-                </Text>
-              </View>
-              <Material
-                name="arrow-forward-ios"
-                className="dark:!text-gray-400"
-                size={18}
-              />
-            </View>
-
-            {/* bank & card */}
-            <View className="flex flex-row justify-between w-full items-center py-4 border-b  border-slate-400">
-              <View className="flex flex-row items-center gap-3">
-                <Material
-                  name="account-balance"
-                  size={18}
-                  className="p-2 rounded-full bg-yellow-100 !text-yellow-500"
-                />
-                <Text className="dark:text-gray-400 ">
-                  Bank & Cards
-                </Text>
-              </View>
-              <Material
-                name="arrow-forward-ios"
-                className="dark:!text-gray-400"
-                size={18}
-              />
-            </View>
-
-            {/* transaction */}
-            <View className="flex flex-row justify-between w-full items-center py-4 border-b  border-slate-400">
-              <View className="flex flex-row items-center gap-3">
-                <Material
-                  name="payments"
-                  size={18}
-                  className="p-2 rounded-full bg-red-100 !text-red-500"
-                />
-                <Text className="dark:text-gray-400 ">
-                  Transaction
-                </Text>
-              </View>
-              <Material
-                name="arrow-forward-ios"
-                className="dark:!text-gray-400"
-                size={18}
-              />
-            </View>
-
-            {/* settings */}
-            <View className="flex flex-row justify-between w-full items-center py-4 border-b  border-slate-400">
-              <View className="flex flex-row items-center gap-3">
-                <Material
-                  name="settings"
-                  size={18}
-                  className="p-2 rounded-full bg-blue-100 !text-blue-500"
-                />
-                <Text className="dark:text-gray-400 ">Settings</Text>
-              </View>
-              <Material
-                name="arrow-forward-ios"
-                className="dark:!text-gray-400"
-                size={18}
-              />
-            </View>
-
-            {/* data privacy */}
-            <View className="flex flex-row justify-between w-full items-center py-4">
-              <View className="flex flex-row items-center gap-3">
-                <Material
-                  name="storage"
-                  size={18}
-                  className="p-2 rounded-full bg-green-200 !text-green-500"
-                />
-                <Text className="dark:text-gray-400 ">
-                  Data privacy
-                </Text>
-              </View>
-              <Material
-                name="arrow-forward-ios"
-                className="dark:!text-gray-400"
-                size={18}
-              />
-            </View>
+            ))}
           </View>
         </ScrollView>
       </SafeAreaView>
