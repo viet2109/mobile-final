@@ -9,7 +9,11 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: "#3b82f6",
         tabBarShowLabel: false,
-        headerShown: false
+        headerShown: false,
+        tabBarHideOnKeyboard: true
+        // tabBarStyle: {
+        //   backgroundColor: colorScheme === "dark" ? "#121212" : "#f2f2f2",
+        // },
       }}
       tabBar={(props) => <Tabbar {...props} />}
       sceneContainerStyle={{
