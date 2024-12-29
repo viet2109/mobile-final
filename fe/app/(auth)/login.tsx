@@ -1,5 +1,3 @@
-import { Stack } from "expo-router";
-import React from "react";
 import { KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { ChevronLeftIcon, EyeIcon } from "react-native-heroicons/solid";
 
