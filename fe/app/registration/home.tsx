@@ -33,7 +33,7 @@ const Registration = ({onClickSignUp = () => {}}) => {
         <View className=" w-full items-center mt-4 ">
           <TouchableOpacity
             className="py-3 px-6 rounded-full w-4/5 bg-white border border-blue-bg"
-            onPress={() => router.push("home")}
+            onPress={() => router.push("login")}
           >
             <Text className="text-blue-bg text-lg font-bold text-center">
               Log in
