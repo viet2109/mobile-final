@@ -1,8 +1,13 @@
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 import { Stack, useRouter } from "expo-router";
+import React from "react";
 const Welcome = () => {
   const router = useRouter();
+
+  
+
+  
 
   return (
     <>

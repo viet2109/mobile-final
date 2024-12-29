@@ -14,6 +14,8 @@ function Tabbar(props: BottomTabBarProps) {
   const { state, descriptors, navigation } = props;
   const tabIcon: Record<string, (props: TabIconProps) => JSX.Element> = {
     home: (props) => <Ant name="home" size={28} {...props} />,
+    spending: (props) => <Material name="paid" size={28} {...props} />, // Biểu tượng spending
+    
     scanner: (props) => (
       <Material name="qr-code-scanner" size={28} {...props} />
     ),
