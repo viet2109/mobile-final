@@ -1,15 +1,20 @@
-import { ScrollView, Text, TextInput, View } from "react-native";
+import {
+  ActivityIndicator,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import HeaderBack from "../../../components/HeaderBack";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Entypo from "@expo/vector-icons/Entypo";
 import { StyleSheet } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { TouchableOpacity } from "react-native";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { ChatHistory } from "../../../types";
 import ChatMessage from "../../../components/ChatMessage";
 import axios from "axios";
-import ToastManager, { Toast } from "toastify-react-native";
 
 const Support = () => {
   const [chatHistory, setChatHistory] = useState<ChatHistory[]>([]);
@@ -27,6 +32,7 @@ const Support = () => {
 
   const handleSendMessage = async () => {
     if (message.trim() === "" || isLoading) return;
+    scrollViewRef.current?.scrollToEnd({ animated: true });
     setIsLoading(true);
     const userHistoryMessage: ChatHistory = { role: "user", content: message };
 
@@ -42,24 +48,25 @@ const Support = () => {
     });
 
     try {
-        const response = await instance.post("/chat/completions", {
-            model: "gpt-4o",
-            messages: [
-                {
-                    "role": "system",
-                    "content": "Bạn là trợ lý ảo về lĩnh vực tài chính ở công ty matcha và luôn sẵn sàng giúp đỡ."
-                },
-                ...chatHistory,
-                userHistoryMessage
-            ]
-        });
-        const botHistoryMessage: ChatHistory = { role: "assistant", content: "hihi" };
-        setChatHistory(prev => [...prev, botHistoryMessage]);
+      const response = await instance.post("/chat/completions", {
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "system",
+            content:
+              "Bạn là trợ lý ảo về lĩnh vực tài chính ở công ty matcha và luôn sẵn sàng giúp đỡ.",
+          },
+          ...chatHistory,
+          userHistoryMessage,
+        ],
+      });
+      const botHistoryMessage: ChatHistory = response.data.choices[0].message;
+      setChatHistory((prev) => [...prev, botHistoryMessage]);
     } catch (error: any) {
-        console.log(error);
+      console.log(error);
     } finally {
-        setIsLoading(false);
-        scrollViewRef.current?.scrollToEnd({ animated: true });
+      setIsLoading(false);
+      scrollViewRef.current?.scrollToEnd({ animated: true });
     }
   };
 
@@ -72,6 +79,12 @@ const Support = () => {
             <ChatMessage role={chat.role} content={chat.content} />
           </View>
         ))}
+        {isLoading && (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="small" color="#1E90FF" />
+            <Text>Loading...</Text>
+          </View>
+        )}
       </ScrollView>
       <View style={styles.container} className="relative">
         <Entypo name="attachment" size={24} color="black" />
@@ -107,6 +120,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     paddingRight: 50,
+  },
+  loadingContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 10,
   },
 });
 

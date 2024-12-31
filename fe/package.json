@@ -41,6 +41,7 @@
     "react-native-dropdown-picker": "^5.4.6",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-heroicons": "^4.0.0",
+    "react-native-markdown-display": "^7.0.2",
     "react-native-modal": "^13.0.1",
     "react-native-otp-entry": "^1.8.2",
     "react-native-reanimated": "~3.10.1",

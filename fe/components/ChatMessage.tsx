@@ -1,32 +1,53 @@
-import { View, Text, Image, StyleSheet } from "react-native";
-// import Markdown from "react-markdown";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserAlt } from "@fortawesome/free-solid-svg-icons";
+import { View, Text, StyleSheet } from "react-native";
 import { ChatHistory } from "../types";
-import AntDesign from '@expo/vector-icons/AntDesign';
+import AntDesign from "@expo/vector-icons/AntDesign";
+import Markdown from "react-native-markdown-display";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 function ChatMessage(props: ChatHistory) {
-
+  const textColor = props.role === "user" ? "white" : "black";
   return (
-    <View style={styles.messageContainer} className={`${props.role === "user" ? "justify-end" : "justify-start"} items-center mb-4`}>
+    <View
+      style={styles.messageContainer}
+      className={`${
+        props.role === "user" ? "justify-end" : "justify-start"
+      } items-center mb-4`}
+    >
       {props.role === "assistant" && (
-        <Image
-          source={require("../assets/images/404Page.jpg")}
-          style={styles.chatGptImage}
+        <MaterialCommunityIcons
+          name="robot-happy-outline"
+          size={24}
+          color="black"
         />
       )}
-      <View style={styles.messageContent} className={`p-4 rounded-3xl ${props.role === "user" ? "bg-blue-bg text-white" : "bg-white"}`}>
-        <View style={styles.header}>
-          <Text style={styles.role} className={`${props.role === "user" ? "text-white" : ""} mr-2`}>
+      <View
+        style={[
+          styles.messageContent,
+          { backgroundColor: props.role === "user" ? "#1E90FF" : "#FFFFFF" },
+        ]}
+      >
+        <View style={styles.header} className="-mb-2 mt-2">
+          <Text style={[styles.role, { color: textColor }]} className="mr-2">
             {props.role === "user" ? "User" : "MATCHA AI"}
           </Text>
-          <Text className={`${props.role === "user" ? "text-white" : ""}`}>11:46</Text>
         </View>
-        <Text style={styles.messageText}>
-          <Text className={`${props.role === "user" ? "text-white" : ""}`}>{props.content}</Text>
-        </Text>
+        <Markdown
+          style={{
+            body: {
+              flexWrap: "wrap",
+              maxWidth: 320,
+              overflow: "hidden",
+              textAlign: "justify",
+              color: textColor,
+            },
+          }}
+        >
+          {props.content}
+        </Markdown>
       </View>
-      {props.role === "user" && <AntDesign name="user" size={24} color="black" />}
+      {props.role === "user" && (
+        <AntDesign name="user" size={24} color="black" />
+      )}
     </View>
   );
 }
@@ -44,13 +65,14 @@ const styles = StyleSheet.create({
   },
   messageContent: {
     flexDirection: "column",
-    width: "100%",
-    maxWidth: 320,
+    maxWidth: "90%",
+    alignSelf: "flex-start",
+    paddingHorizontal: 10,
+    borderRadius: 14,
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 4,
   },
   role: {
     fontSize: 12,
