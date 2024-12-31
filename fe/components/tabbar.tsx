@@ -3,6 +3,7 @@ import Material from "@expo/vector-icons/MaterialIcons";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { useEffect, useState } from "react";
 import { Keyboard, Text, TouchableOpacity, View } from "react-native";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 type TabIconProps = {
   color?: string;
@@ -14,8 +15,8 @@ function Tabbar(props: BottomTabBarProps) {
   const { state, descriptors, navigation } = props;
   const tabIcon: Record<string, (props: TabIconProps) => JSX.Element> = {
     home: (props) => <Ant name="home" size={28} {...props} />,
-    spending: (props) => <Material name="paid" size={28} {...props} />, // Biểu tượng spending
-    
+    spending: (props) => <Material name="paid" size={28} {...props} />,
+    support : (props) => <Ionicons name="chatbubble-outline" size={24} color="black" {...props}/>,
     scanner: (props) => (
       <Material name="qr-code-scanner" size={28} {...props} />
     ),

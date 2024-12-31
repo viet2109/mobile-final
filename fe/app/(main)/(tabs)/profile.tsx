@@ -92,6 +92,19 @@ function Profile() {
         />
       ),
     },
+    {
+      iconName: "logout",
+      iconColor: "bg-red-200 !text-red-500",
+      title: "Logout",
+      action: (
+        <Material
+          name="arrow-forward-ios"
+          className="dark:!text-white"
+          size={18}
+        />
+      ),
+      onClick: () => router.push("welcome"),
+    },
   ];
 
   return (
