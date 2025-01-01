@@ -1,5 +1,6 @@
-@ -1,38 +0,0 @@
+
 import { Stack } from 'expo-router';
+// @ts-ignore
 import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';

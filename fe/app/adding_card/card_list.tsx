@@ -1,4 +1,5 @@
-@ -1,109 +0,0 @@
+
+// @ts-ignore
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Stack, useNavigation } from 'expo-router';
 import React, { useState, useEffect } from 'react';
