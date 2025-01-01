@@ -7,6 +7,10 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
+import axios from "axios";
+import Toast from "react-native-toast-message";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const Login = () => {
   const [secureText, setSecureText] = useState(true);
   const [email, setEmail] = useState("");
@@ -14,6 +18,14 @@ const Login = () => {
   const [isActiveButton, setIsActiveButton] = useState(false);
 
   const router = useRouter();
+  const apiUrl = process.env.REACT_APP_RUNAI_URL || "http://xxx.xxx.x.x:8082";
+
+  const instance = axios.create({
+    baseURL: apiUrl,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
   const checkActiveButton = () => {
     if (email && password) {
@@ -27,13 +39,37 @@ const Login = () => {
     checkActiveButton();
   }, [email, password]);
 
+  const handleLogin = async () => {
+    if (!isActiveButton) return;
+
+    try {
+      const response = await instance.post("/auth/login", {
+        email,
+        password,
+      });
+
+      const { token, user } = response.data;
+
+      await AsyncStorage.setItem("authToken", token);
+      router.push("/home");
+    } catch (error) {
+      // Show error toast
+      Toast.show({
+        type: "error",
+        text1: "Login Failed",
+        text2: "Please check your credentials and try again.",
+      });
+    }
+  };
+
   return (
     <SafeAreaView className="bg-white flex-1">
+      <Toast />
       <HeaderBack title="" />
       <View className="p-4">
         <Text style={styles.title}>Login to Matcha</Text>
         <Text style={styles.subtitle}>
-          Enter your mobile number to verify your account
+          Enter your email and password to access your account
         </Text>
 
         <View style={styles.inputContainer}>
@@ -59,14 +95,13 @@ const Login = () => {
             <AntDesign name="eyeo" size={24} color="black" />
           </TouchableOpacity>
         </View>
+
         <TouchableOpacity
           disabled={!isActiveButton}
           className={`${
             isActiveButton ? "bg-blue-500" : "bg-gray-300"
           } py-4 px-6 rounded-full mt-2`}
-          onPress={() => {
-            router.push("home");
-          }}
+          onPress={handleLogin}
         >
           <Text
             className={`${
@@ -104,31 +139,11 @@ const styles = StyleSheet.create({
     borderColor: "#DDD",
     marginBottom: 15,
   },
-  countryCode: {
-    marginLeft: 10,
-    fontSize: 16,
-    color: "#333",
-  },
   input: {
     flex: 1,
     fontSize: 16,
     color: "#333",
     marginLeft: 10,
-  },
-  icon: {
-    color: "#666",
-  },
-  button: {
-    backgroundColor: "#CCC",
-    paddingVertical: 15,
-    borderRadius: 8,
-    alignItems: "center",
-    marginTop: 20,
-  },
-  buttonText: {
-    fontSize: 16,
-    color: "#FFF",
-    fontWeight: "bold",
   },
 });
 

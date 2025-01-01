@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feature } from "../../../types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Profile() {
   const { colorScheme, toggleColorScheme } = useColorScheme();
@@ -103,7 +104,10 @@ function Profile() {
           size={18}
         />
       ),
-      onClick: () => router.push("welcome"),
+      onClick: async () => {
+        await AsyncStorage.removeItem('authToken');
+        router.push("welcome")
+      },
     },
   ];
 
