@@ -1,7 +1,9 @@
 import Ant from "@expo/vector-icons/AntDesign";
 import Material from "@expo/vector-icons/MaterialIcons";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import { Text, TouchableOpacity, View } from "react-native";
+import { useEffect, useState } from "react";
+import { Keyboard, Text, TouchableOpacity, View } from "react-native";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 type TabIconProps = {
   color?: string;
@@ -13,11 +15,31 @@ function Tabbar(props: BottomTabBarProps) {
   const { state, descriptors, navigation } = props;
   const tabIcon: Record<string, (props: TabIconProps) => JSX.Element> = {
     home: (props) => <Ant name="home" size={28} {...props} />,
+    spending: (props) => <Material name="paid" size={28} {...props} />,
+    support : (props) => <Ionicons name="chatbubble-outline" size={24} color="black" {...props}/>,
     scanner: (props) => (
       <Material name="qr-code-scanner" size={28} {...props} />
     ),
     profile: (props) => <Ant name="user" size={28} {...props} />,
   };
+
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () =>
+      setKeyboardVisible(true)
+    );
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () =>
+      setKeyboardVisible(false)
+    );
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
+
+  if (isKeyboardVisible) return null; // Ẩn Tab Bar nếu bàn phím mở
 
   return (
     <View className="bg-white py-3 flex-row mx-5 rounded-3xl dark:bg-[#2A2A2A] absolute bottom-5">
@@ -68,11 +90,11 @@ function Tabbar(props: BottomTabBarProps) {
               className: ` ${
                 isFocused
                   ? "!text-blue-500 dark:!text-blue-500"
-                  : "dark:!text-white"
+                  : "dark:!text-gray-400"
               }`,
             })}
             <Text
-              className={`text-center dark:text-white text-sm ${
+              className={`text-center dark:text-gray-400 text-sm ${
                 isFocused ? "!text-blue-500" : ""
               }`}
             >

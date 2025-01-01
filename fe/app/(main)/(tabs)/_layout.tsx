@@ -1,21 +1,26 @@
-import { Tabs } from "expo-router";
+import { Tabs, usePathname } from "expo-router";
 import Tabbar from "../../../components/tabbar";
 import { useColorScheme } from "nativewind";
-import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 
 export default function TabLayout() {
   const { colorScheme } = useColorScheme();
+  const path = usePathname();
+  console.log(path);
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: "#3b82f6",
         tabBarShowLabel: false,
         headerShown: false,
+        tabBarHideOnKeyboard: true,
         // tabBarStyle: {
         //   backgroundColor: colorScheme === "dark" ? "#121212" : "#f2f2f2",
         // },
       }}
-      tabBar={(props: BottomTabBarProps) => <Tabbar {...props} />}
+      tabBar={(props) => {
+        if (path === "/support") return null;
+        return <Tabbar {...props} />;
+      }}
       sceneContainerStyle={{
         backgroundColor: colorScheme === "dark" ? "#121212" : "#f2f2f2",
       }}
@@ -27,6 +32,15 @@ export default function TabLayout() {
           headerShown: false,
         }}
       />
+
+      <Tabs.Screen
+        name="spending"
+        options={{
+          title: "Spending",
+          headerShown: false,
+        }}
+      />
+
       <Tabs.Screen
         name="scanner"
         options={{
@@ -34,6 +48,15 @@ export default function TabLayout() {
           headerShown: false,
         }}
       />
+
+      <Tabs.Screen
+        name="support"
+        options={{
+          title: "Support",
+          headerShown: false,
+        }}
+      />
+      
       <Tabs.Screen
         name="profile"
         options={{

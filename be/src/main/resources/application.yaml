@@ -1,13 +1,11 @@
 spring:
   datasource:
-    url: ${DATABASE_URL}
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
-    driver-class-name: org.postgresql.Driver
+    url: "jdbc:postgresql://dpg-cti392t6l47c738ejoo0-a.oregon-postgres.render.com/banking_om3j"
+    username: "banking_om3j_user"
+    password: "iz2Jvhr9VmwpNqnUHJTnD9TNPLMvP6J1"
   jpa:
     hibernate:
       ddl-auto: update
     database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
 server:
-  port: 8080
+  port: 8082
