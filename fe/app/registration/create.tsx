@@ -30,11 +30,13 @@ const CreateAccount = ({ onClickYes = () => {} , onEmailChange = (email: string)
   const handleMobileNumberChange = (text: string) => {
     setEmail(text);
     checkActiveButton();
+    onEmailChange(text)
   }
 
   const handlePasswordChange = (text: string) => {
     setPassword(text);
     checkActiveButton();
+    onPasswordChange(text)
   }
 
   const handleConfirm = () => {

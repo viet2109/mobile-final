@@ -7,6 +7,10 @@ spring:
     hibernate:
       ddl-auto: update
     database: postgresql
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
   mail:
     host: smtp.gmail.com
     port: 587
@@ -18,5 +22,9 @@ spring:
           auth: true
           starttls:
             enable: true
+logging:
+  level:
+    org.hibernate.SQL: DEBUG  # Log câu SQL
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # Log giá trị thực tế của các tham số bind
 server:
   port: 8082

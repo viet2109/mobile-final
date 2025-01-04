@@ -5,7 +5,6 @@ import { useColorScheme } from "nativewind";
 export default function TabLayout() {
   const { colorScheme } = useColorScheme();
   const path = usePathname();
-  console.log(path);
   return (
     <Tabs
       screenOptions={{

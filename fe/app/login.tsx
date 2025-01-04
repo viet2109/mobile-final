@@ -51,9 +51,9 @@ const Login = () => {
       const { token, user } = response.data;
 
       await AsyncStorage.setItem("authToken", token);
+      await AsyncStorage.setItem("user", JSON.stringify(user));
       router.push("/home");
     } catch (error) {
-      // Show error toast
       Toast.show({
         type: "error",
         text1: "Login Failed",

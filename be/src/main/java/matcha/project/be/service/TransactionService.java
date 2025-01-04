@@ -1,5 +1,6 @@
 package matcha.project.be.service;
 
+import lombok.RequiredArgsConstructor;
 import matcha.project.be.DTO.TransactionDTO;
 import matcha.project.be.Repository.TransactionRepository;
 import matcha.project.be.database.entity.TransactionEntity;
@@ -10,22 +11,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-
+@RequiredArgsConstructor
 public class TransactionService {
 
-    @Autowired
-    private TransactionRepository transactionRepository;
-
+    private final TransactionRepository transactionRepository;
 
     public List<TransactionDTO> getTransactionsByAccountId(Integer accountId) {
         return transactionRepository.findTransactionsByAccountId(accountId);
     }
 
-
-
     public List<TransactionDTO> getTransactionsByType(TransactionType type) {
         return transactionRepository.findByType(type);
     }
-
 
 }

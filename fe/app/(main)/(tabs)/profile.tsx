@@ -1,7 +1,7 @@
 import Material from "@expo/vector-icons/MaterialIcons";
 import { useRouter } from "expo-router";
 import { useColorScheme } from "nativewind";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Image,
   ScrollView,
@@ -11,15 +11,31 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Feature } from "../../../types";
+import { Feature, User } from "../../../types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import HeaderBack from "../../../components/HeaderBack";
 
 function Profile() {
   const { colorScheme, toggleColorScheme } = useColorScheme();
   const [isDarkMode, setIsDarkMode] = useState(colorScheme === "dark");
+  const [user, setUser] = useState<User>();
   const router = useRouter();
 
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const storedUser = await AsyncStorage.getItem("user");
+        setUser(storedUser ? JSON.parse(storedUser) : null);
+      } catch (error) {
+        console.error("Error loading data from AsyncStorage:", error);
+      }
+    };
+    loadData();
+  }, []);
+
+
   const handleToggle = useCallback(() => {
+    console.log(user);
     setIsDarkMode(!isDarkMode);
     toggleColorScheme();
   }, [isDarkMode, toggleColorScheme]);
@@ -82,18 +98,6 @@ function Profile() {
       ),
     },
     {
-      iconName: "storage",
-      iconColor: "bg-green-200 !text-green-500",
-      title: "Data privacy",
-      action: (
-        <Material
-          name="arrow-forward-ios"
-          className="dark:!text-white"
-          size={18}
-        />
-      ),
-    },
-    {
       iconName: "logout",
       iconColor: "bg-red-200 !text-red-500",
       title: "Logout",
@@ -106,6 +110,7 @@ function Profile() {
       ),
       onClick: async () => {
         await AsyncStorage.removeItem('authToken');
+        await AsyncStorage.removeItem('user');
         router.push("welcome")
       },
     },
@@ -116,24 +121,7 @@ function Profile() {
       <SafeAreaView className="flex-1 p-4">
         <ScrollView>
           {/* Header */}
-          <View className="flex flex-row justify-between items-center mb-6">
-            <TouchableOpacity
-              onPress={() => router.back()}
-              className="flex-row items-center "
-            >
-              <Material
-                name="arrow-back"
-                size={26}
-                color="black"
-                className="dark:!text-gray-400"
-              />
-            </TouchableOpacity>
-
-            <Text className="dark:text-gray-400 font-semibold text-2xl -translate-x-4 ">
-              My Profile
-            </Text>
-            <Text></Text>
-          </View>
+          <HeaderBack title="Profile" />
 
           {/* Description */}
           <View className="flex flex-col justify-between items-center bg-white  dark:bg-[#2A2A2A] p-4 rounded-xl mb-4">
@@ -152,12 +140,12 @@ function Profile() {
                 className="w-16 aspect-square rounded-full"
               />
               <Text className="dark:text-white font-semibold text-[16px] ">
-                Nguyen Hoang Viet
+                {user?.name}
               </Text>
               <Text className=" text-gray-400 ">
-                nguyenhoangviet@gmail.com
+                {user?.email}
               </Text>
-              <Text className=" text-gray-400 ">0548228834</Text>
+              <Text className=" text-gray-400 ">{user?.phone}</Text>
             </View>
           </View>
 
