@@ -2,24 +2,28 @@ import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { OtpInput } from "react-native-otp-entry";
 import ToastManager, { Toast } from "toastify-react-native";
+import { baseAxios } from "../../service/registerService";
 
-const Confirm: React.FC = () => {
+const Confirm = ({ onClickYes = () => {}, onHandleChangeCode = (code: string) => {}}) => {
   const [isActiveButton, setIsActiveButton] = useState(false);
   const [code, setCode] = useState("");
   const handleTextChange = (text: string) => {
     setCode(text);
+    onHandleChangeCode(text);
     if (text.length === 6) {
       setIsActiveButton(true);
     } else {
       setIsActiveButton(false);
     }
   };
-  const handleVerifyEmail = () => {
-    Toast.error(code);
-  };
+
   return (
     <View className="p-4 bg-white flex-1 text-[#333]">
-      <ToastManager positionValue={0} duration={1800} animationStyle={"rightInOut"}/>
+      <ToastManager
+        positionValue={0}
+        duration={1800}
+        animationStyle={"rightInOut"}
+      />
       <Text className="font-bold text-xl mb-4">Confirm your email</Text>
       <Text className="text-lg text-gray-500">
         We have sent a verification code to your email address. Please check
@@ -40,7 +44,7 @@ const Confirm: React.FC = () => {
       </View>
       <TouchableOpacity
         disabled={!isActiveButton}
-        onPress={handleVerifyEmail}
+        onPress={onClickYes}
         className={`${
           isActiveButton ? "bg-blue-500" : "bg-gray-300"
         } py-3 px-6 rounded-full mt-4`}

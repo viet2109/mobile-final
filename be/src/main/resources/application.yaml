@@ -7,5 +7,16 @@ spring:
     hibernate:
       ddl-auto: update
     database: postgresql
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: duyvu2612003@gmail.com
+    password: acib iqae uvdr rqmn
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 server:
   port: 8082

@@ -10,9 +10,17 @@ import { useEffect, useState } from "react";
 import Registration from "./home";
 import Confirm from "./confirm";
 import CreateAccount from "./create";
+import { baseAxios } from "../../service/registerService";
+import { ActivityIndicator } from "react-native";
+import Modal from "react-native-modal";
+import ToastManager, { Toast } from "toastify-react-native";
 
 export default function TabLayout() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [code, setCode] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleBack = () => {
@@ -22,8 +30,52 @@ export default function TabLayout() {
       setCurrentIndex(currentIndex - 1);
     }
   };
+
+  const handleRegister = () => {
+    setIsLoading(true);
+    baseAxios
+      .post("/auth/sendCode", { email })
+      .then((res) => {
+        console.log(res);
+        setCurrentIndex(2);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  const handleVerifyEmail = () => {
+    setIsLoading(true);
+    baseAxios
+      .post("/auth/register", { email, password, code })
+      .then((res) => {
+        router.push("/login");
+      })
+      .catch((err) => {
+        Toast.error("an error occurred, please try again");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-white">
+      <ToastManager
+        positionValue={0}
+        duration={1800}
+        animationStyle={"rightInOut"}
+      />
+      {isLoading && (
+        <Modal isVisible={true} useNativeDriver={true}>
+          <View className="bg-transparent h-full w-full flex justify-center items-center">
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>
+        </Modal>
+      )}
       <View className="flex flex-row justify-between items-center mb-6 ">
         <TouchableOpacity
           onPress={handleBack}
@@ -39,9 +91,17 @@ export default function TabLayout() {
       </View>
       <SegmentedProgressBar len={3} activeIndex={currentIndex} />
 
-      {currentIndex === 0 && <Registration onClickSignUp={() => setCurrentIndex(1)}/>}
-      {currentIndex === 1 && <CreateAccount onClickYes={() => setCurrentIndex(2)}/>}
-      {currentIndex === 2 && <Confirm />}
+      {currentIndex === 0 && (
+        <Registration onClickSignUp={() => setCurrentIndex(1)} />
+      )}
+      {currentIndex === 1 && (
+        <CreateAccount
+          onClickYes={handleRegister}
+          onEmailChange={setEmail}
+          onPasswordChange={setPassword}
+        />
+      )}
+      {currentIndex === 2 && <Confirm onClickYes={handleVerifyEmail} onHandleChangeCode={setCode}/>}
     </SafeAreaView>
   );
 }

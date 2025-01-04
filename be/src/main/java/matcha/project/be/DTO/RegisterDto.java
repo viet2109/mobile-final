@@ -18,4 +18,6 @@ public class RegisterDto implements Serializable {
     /** Password of user */
     private String password;
 
+    private String code;
+
 }
