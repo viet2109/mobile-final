@@ -101,6 +101,7 @@ function Tabbar(props: BottomTabBarProps) {
             >
               {label.toString()}
             </Text>
+            {isFocused && (<Text className="text-center dark:text-gray-400 text-sm w-1 h-1 bg-blue-500 rounded-full mt-1"></Text>)}
           </TouchableOpacity>
         );
       })}
