@@ -3,7 +3,9 @@ package matcha.project.be.service;
 import lombok.RequiredArgsConstructor;
 import matcha.project.be.DTO.RegisterDto;
 import matcha.project.be.common.entity.SystemField;
+import matcha.project.be.database.dao.ProfileDao;
 import matcha.project.be.database.dao.UserDao;
+import matcha.project.be.database.entity.ProfileEntity;
 import matcha.project.be.database.entity.UserEntity;
 import matcha.project.be.util.JwtUtil;
 import org.springframework.dao.DuplicateKeyException;
@@ -20,6 +22,7 @@ public class UserService {
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
     private final CodeVerifyService codeVerifyService;
+    private final ProfileDao profileDao;
 
     public UserEntity createUser(RegisterDto registerDto) {
         if (!codeVerifyService.verifyCode(registerDto.getEmail(), registerDto.getCode())) {
@@ -40,12 +43,22 @@ public class UserService {
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(registerDto.getEmail());
         userEntity.setPassword(passwordEncoder.encode(registerDto.getPassword()));
+
         SystemField systemField = new SystemField();
         LocalDateTime now = LocalDateTime.now();
         systemField.setCreatedAt(now);
         systemField.setUpdatedAt(now);
         userEntity.setSystemField(systemField);
-        return userDao.save(userEntity);
+
+        UserEntity userSaved = userDao.save(userEntity);
+
+        ProfileEntity profileEntity = new ProfileEntity();
+        profileEntity.setEmail(registerDto.getEmail());
+        profileEntity.setUserId(userSaved.getId());
+        profileEntity.setSystemField(systemField);
+
+        profileDao.save(profileEntity);
+        return userSaved;
     }
 
     public UserEntity getUserByEmail(String email) {

@@ -27,4 +27,6 @@ public class GetUserInfoDto implements Serializable {
     private LocalDateTime updated;
 
     private String avatar;
+
+    private String phone;
 }
