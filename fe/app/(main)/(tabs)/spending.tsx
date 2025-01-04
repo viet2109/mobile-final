@@ -17,7 +17,7 @@ import { FlatList ,Text} from "react-native";
 import SpendingItem from "../../../components/Spending/spendingList";
 import TransactionService from "../../../service/transactionService";
 
-interface TransactionItem {
+export interface TransactionItem {
   id: string;
   username: string;
   transactionDate: string;

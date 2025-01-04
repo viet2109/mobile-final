@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { TransactionItem } from '../app/(main)/(tabs)/spending';
 
 interface Transaction {
   id: string;
@@ -10,7 +11,7 @@ interface Transaction {
 
 class TransactionService {
   // Hàm lấy danh sách giao dịch theo type
-  static async getTransactionsByType(type: string): Promise<Transaction[]> {
+  static async getTransactionsByType(type: string): Promise<TransactionItem[]> {
     try {
       const response = await axios.get(`http://192.168.0.105:8082/transactions/type/${type.toUpperCase()}`);
       return response.data;

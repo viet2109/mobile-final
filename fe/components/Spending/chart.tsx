@@ -1,5 +1,5 @@
 import { LineChart } from "react-native-chart-kit";
-import { Dimensions } from "react-native";
+import { Dimensions, Text } from "react-native";
 
 interface TransactionItem {
   id: string;
@@ -16,10 +16,10 @@ const Chart: React.FC<ChartProps> = ({ transactions }) => {
 
   //  transactions rong~
   if (!transactions || transactions.length === 0) {
-    // 
+    //
     const emptyChartData = {
-      labels: [], 
-      datasets: [{ data: [] }], 
+      labels: [""], 
+      datasets: [{ data: [0] }], 
     };
 
     return (
@@ -46,7 +46,7 @@ const Chart: React.FC<ChartProps> = ({ transactions }) => {
   // tao label va data tu transaction
   const labels = transactions.map((transaction) => {
     const [day, month, year] = transaction.transactionDate.split(" ");
-    return `${day}-${year}`; 
+    return `${day}-${year}`;
   });
 
   const data = transactions.map((transaction) => transaction.amount);
