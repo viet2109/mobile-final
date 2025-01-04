@@ -19,8 +19,13 @@ public class UserService {
     private final UserDao userDao;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
+    private final CodeVerifyService codeVerifyService;
 
     public UserEntity createUser(RegisterDto registerDto) {
+        if (!codeVerifyService.verifyCode(registerDto.getEmail(), registerDto.getCode())) {
+            throw new IllegalArgumentException("Code is invalid");
+        }
+
         String error = inputCheck(registerDto);
 
         // check if there is any error
