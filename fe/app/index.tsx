@@ -1,8 +1,7 @@
-
-import React, { useEffect, useRef } from 'react';
-import { View, Text, Animated } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useRouter } from 'expo-router';
+import React, { useEffect, useRef } from "react";
+import { View, Text, Animated } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 import { Stack } from "expo-router";
 const Index = () => {
   const router = useRouter();
@@ -19,22 +18,29 @@ const Index = () => {
   }, []);
 
   const checkOnboardingStatus = async () => {
-    const hasSeenOnboarding = await AsyncStorage.getItem('hasSeenOnboarding');
-    
+    const hasSeenOnboarding = await AsyncStorage.getItem("hasSeenOnboarding");
+
     if (hasSeenOnboarding === null) {
-      router.replace('onBoarding');
+      router.replace("onBoarding");
     } else {
-      router.replace('welcome');
+      router.replace("welcome");
     }
   };
 
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
-       <Animated.View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', opacity }}>
-      <Text className="text-4xl text-green font-bold">Banking App</Text>
-    </Animated.View>
-   </>
+      <Animated.View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          opacity,
+        }}
+      >
+        <Text className="text-4xl text-green font-bold">Banking App</Text>
+      </Animated.View>
+    </>
   );
 };
 

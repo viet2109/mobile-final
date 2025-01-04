@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feature } from "../../../types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Profile() {
   const { colorScheme, toggleColorScheme } = useColorScheme();
@@ -91,6 +92,22 @@ function Profile() {
           size={18}
         />
       ),
+    },
+    {
+      iconName: "logout",
+      iconColor: "bg-red-200 !text-red-500",
+      title: "Logout",
+      action: (
+        <Material
+          name="arrow-forward-ios"
+          className="dark:!text-white"
+          size={18}
+        />
+      ),
+      onClick: async () => {
+        await AsyncStorage.removeItem('authToken');
+        router.push("welcome")
+      },
     },
   ];
 

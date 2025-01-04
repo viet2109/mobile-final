@@ -13,7 +13,7 @@ class TransactionService {
   // Hàm lấy danh sách giao dịch theo type
   static async getTransactionsByType(type: string): Promise<TransactionItem[]> {
     try {
-      const response = await axios.get(`http://192.168.0.105:8082/transactions/type/${type.toUpperCase()}`);
+      const response = await axios.get(`http://192.168.0.107:8082/transactions/type/${type.toUpperCase()}`);
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {

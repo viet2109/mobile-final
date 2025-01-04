@@ -4,9 +4,14 @@ export type RootStackParamList = {
 };
 
 export type Feature = {
-  iconName: "bedtime" | "person" | "account-balance" | "payments" | "settings" | "storage";
+  iconName: "bedtime" | "person" | "account-balance" | "payments" | "settings" | "storage" | "logout";
   iconColor: string;
   title: string;
   action: JSX.Element;
   onClick?: () => void;
+}
+
+export interface ChatHistory {
+  role: string;
+  content: string;
 }

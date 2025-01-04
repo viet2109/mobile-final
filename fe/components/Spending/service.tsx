@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity ,StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
 interface ServiceIconsProps {
@@ -18,12 +18,14 @@ const Service: React.FC<ServiceIconsProps> = ({ services, selectedService, onPre
           style={{ backgroundColor: `${service.color}20` }}
           onPress={() => onPress(service.name as "Spending" | "Income" | "Bills" | "Savings")}
         >
-          <View
-            className="w-10 h-10 rounded-full justify-center items-center"
-            style={{ backgroundColor: `${service.color}20` }}
-          >
-            <Icon name={service.icon} size={24} color={service.color} />
-          </View>
+          <View style={styles.container}>
+    
+      <View style={[styles.background, { backgroundColor: service.color, opacity: 0.2 }]} />
+     
+      <View style={styles.iconContainer}>
+        <Icon name={service.icon} size={24} color={service.color} />
+      </View>
+    </View>
           <Text className="text-sm mt-2">{service.name}</Text>
           {/* Hiển thị chấm nhỏ nếu service đang được chọn */}
           {selectedService === service.name && (
@@ -45,5 +47,25 @@ const Service: React.FC<ServiceIconsProps> = ({ services, selectedService, onPre
     </View>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden", 
+    position: "relative", 
+  },
+  background: {
+    width: "100%",
+    height: "100%",
+    position: "absolute", 
+  },
+  iconContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
 export default Service;

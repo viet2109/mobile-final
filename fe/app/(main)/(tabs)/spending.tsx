@@ -99,7 +99,7 @@ const Spending: React.FC = () => {
     { name: "Spending", color: "blue", icon: "wallet" },
     { name: "Income", color: "green", icon: "cash" },
     { name: "Bills", color: "red", icon: "document" },
-    { name: "Savings", color: "orange", icon: "document" },
+    { name: "Savings", color: "orange", icon: "server" },
   ];
 
   
