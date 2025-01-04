@@ -18,7 +18,7 @@ const Login = () => {
   const [isActiveButton, setIsActiveButton] = useState(false);
 
   const router = useRouter();
-  const apiUrl = process.env.REACT_APP_RUNAI_URL || "http://xxx.xxx.x.x:8082";
+  const apiUrl = process.env.REACT_APP_RUNAI_URL || "http://192.168.2.199:8082";
 
   const instance = axios.create({
     baseURL: apiUrl,

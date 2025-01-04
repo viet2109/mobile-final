@@ -12,15 +12,15 @@ import {
 import Modal from "react-native-modal";
 import VerifyModal from "../../components/VerifyModal";
 
-const CreateAccount = ({ onClickYes = () => {} }) => {
-  const [mobileNumber, setMobileNumber] = useState("");
+const CreateAccount = ({ onClickYes = () => {} , onEmailChange = (email: string) => {}, onPasswordChange = (pwd: string) => {}}) => {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [secureText, setSecureText] = useState(true);
   const [isShowModal, setIsShowModal] = useState(false);
   const [isActiveButton, setIsActiveButton] = useState(false);
 
   const checkActiveButton = () => {
-    if (mobileNumber && password) {
+    if (email && password) {
       setIsActiveButton(true);
     } else {
       setIsActiveButton(false);
@@ -28,7 +28,7 @@ const CreateAccount = ({ onClickYes = () => {} }) => {
   };
 
   const handleMobileNumberChange = (text: string) => {
-    setMobileNumber(text);
+    setEmail(text);
     checkActiveButton();
   }
 
@@ -37,9 +37,15 @@ const CreateAccount = ({ onClickYes = () => {} }) => {
     checkActiveButton();
   }
 
+  const handleConfirm = () => {
+    onEmailChange(email);
+    onPasswordChange(password);
+    onClickYes();
+  };
+
   useEffect(() => {
     checkActiveButton();
-  }, [mobileNumber, password]);
+  }, [email, password]);
 
   return (
     <View className="bg-white p-5 flex-1">
@@ -53,7 +59,7 @@ const CreateAccount = ({ onClickYes = () => {} }) => {
           </TouchableOpacity>
           <VerifyModal
             onClickNo={() => setIsShowModal(false)}
-            onClickYes={onClickYes}
+            onClickYes={handleConfirm}
           />
         </View>
       </Modal>
@@ -67,7 +73,7 @@ const CreateAccount = ({ onClickYes = () => {} }) => {
         <TextInput
           style={styles.input}
           placeholder="Email"
-          value={mobileNumber}
+          value={email}
           onChangeText={(text: string) => handleMobileNumberChange(text)}
         />
       </View>
@@ -92,8 +98,6 @@ const CreateAccount = ({ onClickYes = () => {} }) => {
           isActiveButton ? "bg-blue-500" : "bg-gray-300"
         } py-4 px-6 rounded-full mt-2`}
         onPress={() => {
-          console.log("Sign up");
-          console.log(isShowModal);
           setIsShowModal(true);
         }}
       >
