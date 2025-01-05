@@ -45,7 +45,7 @@ const Welcome = () => {
         <View className=" w-full items-center mt-10">
           <TouchableOpacity
             className="bg-blue-bg py-3 px-6 rounded-full w-4/5"
-            onPress={() => router.push("registration")}
+            onPress={() => router.push("home")}
           >
             <Text className="text-white text-lg font-bold text-center ">
               Continue

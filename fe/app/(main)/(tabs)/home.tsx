@@ -142,11 +142,16 @@ export default function Home() {
           <View className="bg-gray-300 w-[2px] h-6 rounded-full"></View>
 
           <View className=" flex-1 items-center">
-            <MaterialCommunityIcons
-              name="bank-transfer-in"
-              size={38}
-              className="!text-yellow-500"
-            ></MaterialCommunityIcons>
+            <TouchableOpacity
+             className="flex-1 items-center"
+             onPress={() => router.push("receive")}
+            >
+              <MaterialCommunityIcons
+                name="bank-transfer-in"
+                size={38}
+                className="!text-yellow-500"
+              ></MaterialCommunityIcons>
+            </TouchableOpacity>
             <Text className="text-gray-400">Request</Text>
           </View>
 
