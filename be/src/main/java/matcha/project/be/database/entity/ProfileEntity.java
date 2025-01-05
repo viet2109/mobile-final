@@ -17,10 +17,13 @@ public class ProfileEntity implements Serializable {
 
     @Id
     @Column(name = "user_id")
-    private String userId;
+    private Integer userId;
 
     @Column(name = "country_id")
     private Integer countryId;
+
+    @Column(name = "phone")
+    private String phone;
 
     @Column(name = "full_name")
     private String fullName;

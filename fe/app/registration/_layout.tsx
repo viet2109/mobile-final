@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import Registration from "./home";
 import Confirm from "./confirm";
 import CreateAccount from "./create";
-import { baseAxios } from "../../service/registerService";
+import { baseAxios } from "../../service/configAxios";
 import { ActivityIndicator } from "react-native";
 import Modal from "react-native-modal";
 import ToastManager, { Toast } from "toastify-react-native";

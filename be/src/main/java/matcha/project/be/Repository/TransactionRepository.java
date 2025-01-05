@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<TransactionEntity, Integer> {
-    @Query("SELECT new matcha.project.be.DTO.TransactionDTO(u.username, t.amount,CAST(t.type AS string) , t.transactionDate,CAST(t.status AS string))  " +
+    @Query("SELECT new matcha.project.be.DTO.TransactionDTO(u.username, t.amount,CAST(t.type AS string) , t.transactionDate,CAST(t.status AS string), t.id)  " +
             "FROM TransactionEntity t " +
             "JOIN t.account a " +
             "JOIN a.user u " +
@@ -20,7 +20,7 @@ public interface TransactionRepository extends JpaRepository<TransactionEntity, 
     List<TransactionDTO> findTransactionsByAccountId(Integer accountId);
 
 
-    @Query("SELECT new matcha.project.be.DTO.TransactionDTO(u.username, t.amount, CAST(t.type AS string), t.transactionDate, CAST(t.status AS string)) " +
+    @Query("SELECT new matcha.project.be.DTO.TransactionDTO(u.username, t.amount, CAST(t.type AS string), t.transactionDate, CAST(t.status AS string), t.id) " +
             "FROM TransactionEntity t " +
             "JOIN t.account a " +
             "JOIN a.user u " +

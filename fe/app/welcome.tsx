@@ -1,13 +1,20 @@
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 import { Stack, useRouter } from "expo-router";
-import React from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useEffect } from "react";
 const Welcome = () => {
   const router = useRouter();
 
-  
+  const checkOnboardingStatus = async () => {
+    const isLogin = await AsyncStorage.getItem("user");
 
-  
+    if (isLogin) {
+      router.push("home");
+    } else {
+      router.push("registration");
+    }
+  };
 
   return (
     <>
@@ -45,7 +52,7 @@ const Welcome = () => {
         <View className=" w-full items-center mt-10">
           <TouchableOpacity
             className="bg-blue-bg py-3 px-6 rounded-full w-4/5"
-            onPress={() => router.push("home")}
+            onPress={checkOnboardingStatus}
           >
             <Text className="text-white text-lg font-bold text-center ">
               Continue
