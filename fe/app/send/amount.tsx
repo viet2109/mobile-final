@@ -1,22 +1,18 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
-import { useRouter, useLocalSearchParams } from "expo-router";
-import { Recipient } from "./recipient";
-import { SafeAreaView } from "react-native-safe-area-context";
 import {
   FontAwesome,
   Ionicons,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
-import DropDownPicker from "react-native-dropdown-picker";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import React, { useState } from "react";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import CountryFlag from "react-native-country-flag";
+import DropDownPicker from "react-native-dropdown-picker";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { convertCurrency } from "../../utils/stringFormat";
+import { Recipient } from "./recipient";
+import { NumericFormat } from "react-number-format";
+
 type Params = {
   recipient: string;
   purpose: string;
@@ -24,51 +20,44 @@ type Params = {
 
 const EnterAmountScreen: React.FC = () => {
   const router = useRouter();
-  const formatAmount = (value: string) => {
-    const numericValue = value.replace(/[^0-9]/g, ""); // Loại bỏ ký tự không phải số
-    return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, "."); // Thêm dấu .
-  };
-  const { recipient, purpose} = useLocalSearchParams<Params>();
+  const { recipient, purpose } = useLocalSearchParams<Params>();
   const recipientData: Recipient = JSON.parse(recipient || "{}");
-  const [amount, setAmount] = useState<string>(formatAmount("20000"));
+
+  const [amount, setAmount] = useState<number>(20000);
+
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("vietnam");
+  const [value, setValue] = useState("VND");
   const [items, setItems] = useState([
     {
-      value: "vietnam",
+      value: "VND",
       icon: () => (
-        <View>
-          <CountryFlag
-            style={{ borderRadius: 50, aspectRatio: 1 }}
-            isoCode="vn"
-            size={28}
-          />
-        </View>
+        <CountryFlag
+          style={{ borderRadius: 50, aspectRatio: 1 }}
+          isoCode="vn"
+          size={28}
+        />
       ),
     },
     {
-      value: "us",
+      value: "USD",
       icon: () => (
-        <View>
-          <CountryFlag
-            style={{ borderRadius: 50, aspectRatio: 1 }}
-            isoCode="us"
-            size={28}
-          />
-        </View>
+        <CountryFlag
+          style={{ borderRadius: 50, aspectRatio: 1 }}
+          isoCode="us"
+          size={28}
+        />
       ),
     },
   ]);
-  
 
   const handleNext = () => {
-    if (amount.trim()) {
+    if (amount) {
       router.push({
         pathname: "/send/pay",
         params: { recipient: JSON.stringify(recipientData), purpose, amount },
       });
     } else {
-      alert("Vui lòng nhập số tiền.");
+      alert("Số tiền tổi thiểu phải hơn 0.");
     }
   };
 
@@ -90,7 +79,9 @@ const EnterAmountScreen: React.FC = () => {
         <View className="mt-6 items-center gap-4 p-4 bg-white rounded-xl">
           <FontAwesome name={"user-o"} size={26}></FontAwesome>
           <View className="gap-2">
-            <Text className="text-center text-xl">{recipientData.username}</Text>
+            <Text className="text-center text-xl">
+              {recipientData.username}
+            </Text>
             <Text className="text-gray-400 text-center">
               {recipientData.accountNumber}
             </Text>
@@ -109,6 +100,18 @@ const EnterAmountScreen: React.FC = () => {
               containerStyle={{
                 justifyContent: "center",
                 alignItems: "center",
+              }}
+              onSelectItem={(item) => {
+                if (item.value) {
+                  setAmount(
+                    (prev) =>
+                      convertCurrency(
+                        Number(prev),
+                        value,
+                        item.value || value
+                      ) || 0
+                  );
+                }
               }}
               dropDownContainerStyle={{
                 borderColor: "transparent",
@@ -150,10 +153,12 @@ const EnterAmountScreen: React.FC = () => {
           <TextInput
             style={{ width: 192 }}
             selectionColor={"#333"}
-            value={amount}
+            value={amount.toString()}
             className="text-center rounded-xl p-4 bg-black/10 text-2xl"
             keyboardType="numeric"
-            onChangeText={(text) => setAmount(formatAmount(text))}
+            onChangeText={(value) => {
+              setAmount(Number(value));
+            }}
           ></TextInput>
 
           <TouchableOpacity

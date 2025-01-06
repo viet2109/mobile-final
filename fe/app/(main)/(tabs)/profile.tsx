@@ -35,7 +35,6 @@ function Profile() {
 
 
   const handleToggle = useCallback(() => {
-    console.log(user);
     setIsDarkMode(!isDarkMode);
     toggleColorScheme();
   }, [isDarkMode, toggleColorScheme]);
@@ -140,7 +139,7 @@ function Profile() {
                 className="w-16 aspect-square rounded-full"
               />
               <Text className="dark:text-white font-semibold text-[16px] ">
-                {user?.name}
+                {user?.username}
               </Text>
               <Text className=" text-gray-400 ">
                 {user?.email}
