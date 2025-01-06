@@ -17,6 +17,9 @@ module.exports = {
         "dark-bg": "#121212",
         "blue-bg" : "#304FFE"
       },
+      boxShadow: {
+        activeSelected: "0px 6px 0px 1px rgba(59, 130, 246, 0.5)"
+      }
     },
   },
   plugins: [],
