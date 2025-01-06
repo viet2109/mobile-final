@@ -3,9 +3,7 @@ package matcha.project.be.service;
 import lombok.RequiredArgsConstructor;
 import matcha.project.be.DTO.GetUserInfoDto;
 import matcha.project.be.DTO.LoginReponseBodyDto;
-import matcha.project.be.database.dao.ProfileDao;
 import matcha.project.be.database.dao.UserDao;
-import matcha.project.be.database.entity.ProfileEntity;
 import matcha.project.be.database.entity.UserEntity;
 import matcha.project.be.mapper.UserMapper;
 import matcha.project.be.util.JwtUtil;
@@ -20,7 +18,6 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-    private final ProfileDao profileDao;
 
     public LoginReponseBodyDto login(String email, String password) {
         if (email == null || email.isEmpty()) {
@@ -33,17 +30,10 @@ public class AuthService {
                 () -> new EmptyResultDataAccessException("User not found", 1)
         );
 
-        ProfileEntity profileEntity = profileDao.findByEmail(email).orElseThrow(
-                () -> new EmptyResultDataAccessException("Profile not found", 1)
-        );
-
         if (passwordEncoder.matches(password, userEntity.getPassword())) {
             LoginReponseBodyDto loginReponseBodyDto = new LoginReponseBodyDto();
             loginReponseBodyDto.setToken(jwtUtil.generateToken(userEntity));
             GetUserInfoDto getUserInfoDto = userMapper.entityToDto(userEntity);
-            getUserInfoDto.setPhone(profileEntity.getPhone());
-            getUserInfoDto.setName(profileEntity.getFullName());
-            getUserInfoDto.setEmail(profileEntity.getEmail());
             loginReponseBodyDto.setUser(getUserInfoDto);
             return loginReponseBodyDto;
         } else {

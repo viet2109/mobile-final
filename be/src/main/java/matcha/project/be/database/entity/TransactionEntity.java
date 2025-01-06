@@ -1,6 +1,5 @@
 package matcha.project.be.database.entity;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,8 +11,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
-
 
 @Entity
 @Data
@@ -29,6 +26,7 @@ public class TransactionEntity  implements Serializable {
     @Column(name="transaction_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @ManyToOne
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private AccountEntity account;
@@ -39,12 +37,16 @@ public class TransactionEntity  implements Serializable {
 
     @Column(name="amount")
     private BigDecimal amount;
+
     @Column(name="description")
     private String description;
 
     @Enumerated(EnumType.STRING)
     @Column(name="type")
-    private  TransactionType type;
+    private TransactionType type;
+
+    @Column(name="exchange_rate")
+    private Double exchangeRate;
 
     @Column(name="transaction_date")
     @CreationTimestamp

@@ -5,7 +5,7 @@ spring:
     password: "1WWldREahrLBC2Y7juvllAaVou35NTTp"
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     database: postgresql
 #    properties:
 #      hibernate:
