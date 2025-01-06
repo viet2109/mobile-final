@@ -1,13 +1,7 @@
 import { CameraView, useCameraPermissions } from "expo-camera";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  AppState,
-  Platform,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-} from "react-native";
+import { AppState, SafeAreaView, StyleSheet } from "react-native";
 import { Overlay } from "../../../components/overlay";
 
 const Scanner: React.FC = () => {
@@ -15,7 +9,7 @@ const Scanner: React.FC = () => {
   const appState = useRef(AppState.currentState);
   const [, requestPermission] = useCameraPermissions();
   const [, setIsLoading] = useState<boolean>(true);
-
+  const router = useRouter();
   useEffect(() => {
     (async () => {
       const { status } = await requestPermission();
@@ -41,16 +35,27 @@ const Scanner: React.FC = () => {
     };
   }, [requestPermission]);
 
-  const handleBarcodeScanned = async ({ data }: { data: string }) => {
+  const handleBarcodeScanned = async ({ data }: { data: any }) => {
     if (data && !isQrLock.current) {
       isQrLock.current = true;
 
       try {
-        // await Linking.openURL(data);
-        console.log(data);
+        const parsedData = JSON.parse(data);
+        if (parsedData.method === "receive") {
+          router.push({
+            pathname: "/send/amount",
+            params: {
+              recipient: JSON.stringify({
+                ...parsedData.data.recipient,
+              }),
+              purpose: parsedData.data.purpose,
+            },
+          });
+        }
       } catch (error) {
-        console.error("Failed to open URL:", error);
+        console.error("Failed to parse data as JSON:", error);
       } finally {
+        // Reset isQrLock sau 1 giây
         setTimeout(() => {
           isQrLock.current = false;
         }, 1000);

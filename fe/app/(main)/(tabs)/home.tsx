@@ -2,8 +2,9 @@
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Material from "@expo/vector-icons/MaterialIcons";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
+  Alert,
   ScrollView,
   Text,
   TextInput,
@@ -13,14 +14,54 @@ import {
 import CountryFlag from "react-native-country-flag";
 import DropDownPicker from "react-native-dropdown-picker";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Account, User } from "../../../types";
+import { getAccountsByQueries } from "../../../service/account";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { convertCurrency, formatNumber } from "../../../utils/stringFormat";
 export default function Home() {
   const [open, setOpen] = useState(false);
+  const [account, setAccount] = useState<Account | null>(null);
   const router = useRouter();
-  const [value, setValue] = useState("vietnam");
+  const [amount, setAmount] = useState<number>(0);
+  const fetchAccounts = async (userId: number) => {
+    try {
+      const data = await getAccountsByQueries({ userId });
+      if (data && data.length > 0) {
+        setAccount(data[0]);
+        setAmount(Number(data[0].balanceTimestamp) || 0);
+      } else {
+        Alert.alert("Error", "No accounts found.");
+      }
+    } catch (error) {
+      console.error("Error fetching accounts:", error);
+      Alert.alert("Error", "Failed to fetch accounts. Please try again.");
+    }
+  };
+
+  useEffect(() => {
+    const fetchUserAndAccounts = async () => {
+      try {
+        const userString = await AsyncStorage.getItem("user");
+        if (userString) {
+          const parsedUser: User = JSON.parse(userString);
+          await fetchAccounts(parsedUser.id);
+        } else {
+          Alert.alert("Error", "User not found. Please log in.");
+          router.replace("/login");
+        }
+      } catch (error) {
+        console.error("Failed to fetch user from AsyncStorage:", error);
+        Alert.alert("Error", "Failed to fetch user. Please try again.");
+      }
+    };
+    fetchUserAndAccounts();
+  }, [router]);
+
+  const [value, setValue] = useState("VND");
   const [items, setItems] = useState([
     {
       label: "VN Dong",
-      value: "vietnam",
+      value: "VND",
       icon: () => (
         <View>
           <CountryFlag
@@ -33,7 +74,7 @@ export default function Home() {
     },
     {
       label: "US Dollar",
-      value: "us",
+      value: "USD",
       icon: () => (
         <View>
           <CountryFlag
@@ -80,6 +121,18 @@ export default function Home() {
               open={open}
               value={value}
               items={items}
+              onSelectItem={(item) => {
+                if (item.value) {
+                  setAmount(
+                    (prev) =>
+                      convertCurrency(
+                        Number(prev),
+                        value,
+                        item.value || value
+                      ) || 0
+                  );
+                }
+              }}
               style={{
                 backgroundColor: "transparent",
                 borderColor: "transparent",
@@ -112,7 +165,9 @@ export default function Home() {
             />
           </View>
 
-          <Text className="text-6xl text-white">$20,000</Text>
+          <Text className="text-6xl text-white text-center">
+            {formatNumber(amount)}
+          </Text>
           <Text className="text-gray-400">Available Balance</Text>
           <TouchableOpacity className="flex-row justify-center">
             <View className="flex-row items-center gap-2 border border-white rounded-full p-4">
@@ -143,8 +198,8 @@ export default function Home() {
 
           <View className=" flex-1 items-center">
             <TouchableOpacity
-             className="flex-1 items-center"
-             onPress={() => router.push("receive")}
+              className="flex-1 items-center"
+              onPress={() => router.push("receive")}
             >
               <MaterialCommunityIcons
                 name="bank-transfer-in"

@@ -33,7 +33,6 @@ export default function Pay() {
 
   const [cards, setCards] = useState<Account[]>([]);
   const [isLoading, setIsLoading] = useState(false); // Trạng thái loading
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
 
   const pay = async () => {
