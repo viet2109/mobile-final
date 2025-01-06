@@ -10,18 +10,6 @@ import SpendingItem from "../../../components/Spending/spendingList";
 import TransactionService from "../../../service/transactionService";
 import { TransactionItem } from "../../../types";
 
-<<<<<<< HEAD
-export interface TransactionItem {
-  id: string;
-  username: string;
-  transactionDate: string;
-  amount: number;
-  status: string;
-  type: string;
-  icon: string;
-}
-=======
->>>>>>> e55503fa0d9cf77d8aa1641949ad450821884138
 const Spending: React.FC = () => {
   const [selectedMonth, setSelectedMonth] = useState("Jan");
   const [loading, setLoading] = useState(false);

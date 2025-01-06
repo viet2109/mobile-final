@@ -24,9 +24,13 @@ type Params = {
 
 const EnterAmountScreen: React.FC = () => {
   const router = useRouter();
-  const { recipient, purpose } = useLocalSearchParams<Params>();
+  const formatAmount = (value: string) => {
+    const numericValue = value.replace(/[^0-9]/g, ""); // Loại bỏ ký tự không phải số
+    return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, "."); // Thêm dấu .
+  };
+  const { recipient, purpose} = useLocalSearchParams<Params>();
   const recipientData: Recipient = JSON.parse(recipient || "{}");
-  const [amount, setAmount] = useState<string>("");
+  const [amount, setAmount] = useState<string>(formatAmount("20000"));
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("vietnam");
   const [items, setItems] = useState([
@@ -55,10 +59,8 @@ const EnterAmountScreen: React.FC = () => {
       ),
     },
   ]);
-  const formatAmount = (value: string) => {
-    const numericValue = value.replace(/[^0-9]/g, ""); // Loại bỏ ký tự không phải số
-    return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, "."); // Thêm dấu .
-  };
+  
+
   const handleNext = () => {
     if (amount.trim()) {
       router.push({
@@ -88,8 +90,10 @@ const EnterAmountScreen: React.FC = () => {
         <View className="mt-6 items-center gap-4 p-4 bg-white rounded-xl">
           <FontAwesome name={"user-o"} size={26}></FontAwesome>
           <View className="gap-2">
-            <Text className="text-center text-xl">{recipientData.name}</Text>
-            <Text className="text-gray-400">{recipientData.email}</Text>
+            <Text className="text-center text-xl">{recipientData.username}</Text>
+            <Text className="text-gray-400 text-center">
+              {recipientData.accountNumber}
+            </Text>
           </View>
           <View className="justify-center w-full">
             <DropDownPicker
