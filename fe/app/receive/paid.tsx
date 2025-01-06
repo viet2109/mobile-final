@@ -63,7 +63,7 @@ function Pay(props: Props) {
           <FontAwesome name={"user-o"} size={26}></FontAwesome>
           <View className="gap-2">
             <Text className="text-center text-xl">{recipientData.name}</Text>
-            <Text className="text-gray-400">{recipientData.email}</Text>
+            <Text className="text-gray-400 text-center">{recipientData.accountNumber}</Text>
           </View>
         </View>
 

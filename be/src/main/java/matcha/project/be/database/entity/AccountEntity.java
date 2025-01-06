@@ -30,8 +30,6 @@ public class AccountEntity implements Serializable {
     private String accountNumber;
 
 
-
-
     @Enumerated(EnumType.STRING)
     @Column(name = "account_type")
     private  AccountType  accountType;
@@ -45,7 +43,5 @@ public class AccountEntity implements Serializable {
 
     @Embedded
     private SystemField systemField;
-
-
 
 }

@@ -10,9 +10,10 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { maskAndFormatAccountNumber } from "../../utils/stringFormat";
 
 export type Sender = {
-  email: string;
+  accountNumber: string;
   name: string;
 };
 
@@ -22,17 +23,17 @@ export default function SenderScreen() {
 
   const [searchQuery, setSearchQuery] = useState(""); // Lưu giá trị nhập
   const [senders, setSenders] = useState<Sender[]>([
-    { name: "Nguyen Hoang Viet", email: "nguyenhoangviet@gmail.com" },
-    { name: "Tran Thi Mai", email: "tranthimai@gmail.com" },
-    { name: "Pham Van Nam", email: "phamvannam@gmail.com" },
-    { name: "Le Quoc Bao", email: "lequocbao@gmail.com" },
-    { name: "Nguyen Minh Tri", email: "nguyenminhtri@gmail.com" },
+    { name: "Nguyen Hoang Viet", accountNumber: "234567890" },
+    { name: "Tran Thi Mai", accountNumber: "876543210" },
+    { name: "Pham Van Nam", accountNumber: "556667778" },
+    { name: "Le Quoc Bao", accountNumber: "122334455" },
+    { name: "Nguyen Minh Tri", accountNumber: "988776655" },
   ]);
 
   const filteredSenders = senders.filter(
     (sender) =>
       sender.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      sender.email.toLowerCase().includes(searchQuery.toLowerCase())
+      sender.accountNumber.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   useEffect(() => {
@@ -76,7 +77,7 @@ export default function SenderScreen() {
               placeholderTextColor={"#9ca3af"}
               selectionColor={"#9ca3af"}
               className="bg-gray-100 px-4 py-2 rounded-3xl pl-14"
-              placeholder='Search "Sender email"'
+              placeholder='Search "Sender account number or name"'
               onChangeText={setSearchQuery}
             />
           </View>
@@ -100,7 +101,7 @@ export default function SenderScreen() {
                         <View>
                           <Text className="font-medium">{sender.name}</Text>
                           <Text className="text-gray-400">
-                            {sender.email}
+                            {maskAndFormatAccountNumber(sender.accountNumber)}
                           </Text>
                         </View>
                       </TouchableOpacity>
@@ -135,7 +136,9 @@ export default function SenderScreen() {
                   </View>
                   <View className="gap-1">
                     <Text className="font-medium text-lg">{sender.name}</Text>
-                    <Text className="text-gray-400">{sender.email}</Text>
+                    <Text className="text-gray-400">
+                      {maskAndFormatAccountNumber(sender.accountNumber)}
+                    </Text>
                   </View>
                 </View>
               </TouchableOpacity>

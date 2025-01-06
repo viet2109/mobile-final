@@ -4,12 +4,19 @@ export type RootStackParamList = {
 };
 
 export type Feature = {
-  iconName: "bedtime" | "person" | "account-balance" | "payments" | "settings" | "storage" | "logout";
+  iconName:
+    | "bedtime"
+    | "person"
+    | "account-balance"
+    | "payments"
+    | "settings"
+    | "storage"
+    | "logout";
   iconColor: string;
   title: string;
   action: JSX.Element;
   onClick?: () => void;
-}
+};
 
 export interface ChatHistory {
   role: string;
@@ -20,7 +27,7 @@ export interface User {
   avatar: string | null;
   email: string;
   id: number;
-  name: string | null;
+  username: string | null;
   phone: string | null;
 }
 
@@ -32,4 +39,30 @@ export interface TransactionItem {
   status: string;
   type: string;
   icon: string;
+}
+export interface TransferRequestDto {
+  sender: string;
+  recipient: string;
+  amount: string;
+  type?: string;
+  description: string;
+}
+
+export interface Transaction {
+ account:Account;
+ id: string;
+ username: string;
+ transactionDate: string;
+ amount: number;
+ status: string;
+ type: string;
+ icon: string;
+}
+
+export interface Account {
+  id?: number; // `id` có thể là undefined nếu chưa được tạo
+  user: User; // Tham chiếu đến đối tượng `UserEntity`
+  accountNumber?: string; // Số tài khoản
+  balanceTimestamp?: string; // Dấu thời gian (có thể là dạng chuỗi ISO)
+  currency?: string; // Loại tiền tệ
 }

@@ -8,7 +8,6 @@ const Welcome = () => {
 
   const checkOnboardingStatus = async () => {
     const isLogin = await AsyncStorage.getItem("user");
-
     if (isLogin) {
       router.push("home");
     } else {

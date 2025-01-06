@@ -83,7 +83,7 @@ const SelectPurposeScreen: React.FC = () => {
             <Pressable
               key={index}
               onPress={() => setSelectedPurpose(purpose.name)}
-              className="flex-row bg-white rounded-xl p-4 items-center justify-between"
+              className={`flex-row border-2 bg-white rounded-xl p-4 items-center justify-between ${ selectedPurpose === purpose.name ? "border-blue-bg":"border-transparent"}`}
             >
               <View className="flex-row items-center gap-3">
                 {purpose.icon}

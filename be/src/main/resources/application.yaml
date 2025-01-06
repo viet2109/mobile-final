@@ -1,16 +1,16 @@
 spring:
   datasource:
-    url: "jdbc:postgresql://dpg-cti392t6l47c738ejoo0-a.oregon-postgres.render.com/banking_om3j"
-    username: "banking_om3j_user"
-    password: "iz2Jvhr9VmwpNqnUHJTnD9TNPLMvP6J1"
+    url: "jdbc:postgresql://dpg-cttq751u0jms73bl7eb0-a.oregon-postgres.render.com/banking_61o6"
+    username: "banking_61o6_user"
+    password: "1WWldREahrLBC2Y7juvllAaVou35NTTp"
   jpa:
     hibernate:
       ddl-auto: update
     database: postgresql
-    properties:
-      hibernate:
-        format_sql: true
-        show_sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+#        show_sql: false
   mail:
     host: smtp.gmail.com
     port: 587
@@ -22,9 +22,9 @@ spring:
           auth: true
           starttls:
             enable: true
-logging:
-  level:
-    org.hibernate.SQL: DEBUG  # Log câu SQL
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # Log giá trị thực tế của các tham số bind
+#logging:
+#  level:
+#    org.hibernate.SQL: DEBUG  # Log câu SQL
+#    org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # Log giá trị thực tế của các tham số bind
 server:
   port: 8082

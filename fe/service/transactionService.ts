@@ -17,6 +17,7 @@ class TransactionService {
       throw error;
     }
   }
+  
 }
 
 export default TransactionService;
