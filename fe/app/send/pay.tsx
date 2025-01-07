@@ -58,6 +58,7 @@ export default function Pay() {
           text2:
             "Your transaction has been completed successfully. Please check your account for confirmation.",
         });
+        setTimeout(() => router.push("/home"), 2000);
       })
       .catch((error: any) => {
         console.log(error);
