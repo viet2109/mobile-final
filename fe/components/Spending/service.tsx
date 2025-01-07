@@ -4,8 +4,8 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 interface ServiceIconsProps {
   services: { name: string; color: string; icon: string }[];
-  selectedService: "Spending" | "Income" | "Bills" | "Savings"; // Thêm prop selectedService
-  onPress: (serviceName: "Spending" | "Income" | "Bills" | "Savings") => void;
+  selectedService: "Receive" | "Transfer" | "Bill" | "Saving"; // Thêm prop selectedService
+  onPress: (serviceName: "Receive" | "Transfer" | "Bill" | "Saving") => void;
 }
 
 const Service: React.FC<ServiceIconsProps> = ({ services, selectedService, onPress }) => {
@@ -16,7 +16,7 @@ const Service: React.FC<ServiceIconsProps> = ({ services, selectedService, onPre
           key={index}
           className="items-center justify-center w-16 h-16"
           style={{ backgroundColor: `${service.color}20` }}
-          onPress={() => onPress(service.name as "Spending" | "Income" | "Bills" | "Savings")}
+          onPress={() => onPress(service.name as "Receive" | "Transfer" | "Bill" | "Saving")}
         >
           <View style={styles.container}>
     
