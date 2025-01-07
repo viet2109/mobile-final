@@ -10,6 +10,7 @@ import { useRouter } from "expo-router";
 import axios from "axios";
 import Toast from "react-native-toast-message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { baseAxios } from "../service/configAxios";
 
 const Login = () => {
   const [secureText, setSecureText] = useState(true);
@@ -18,14 +19,6 @@ const Login = () => {
   const [isActiveButton, setIsActiveButton] = useState(false);
 
   const router = useRouter();
-  const apiUrl = process.env.REACT_APP_RUNAI_URL || "http://192.168.100.161:8082";
-
-  const instance = axios.create({
-    baseURL: apiUrl,
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
 
   const checkActiveButton = () => {
     if (email && password) {
@@ -43,7 +36,7 @@ const Login = () => {
     if (!isActiveButton) return;
 
     try {
-      const response = await instance.post("/auth/login", {
+      const response = await baseAxios.post("/auth/login", {
         email,
         password,
       });
@@ -59,6 +52,33 @@ const Login = () => {
         text1: "Login Failed",
         text2: "Please check your credentials and try again.",
       });
+    }
+  };
+
+  const handleForgotPassword = () => {
+    if (email === "") {
+      Toast.show({
+        type: "info",
+        text1: "Forgot Password",
+        text2: "Please contact our support team to reset your password.",
+      });
+    } else {
+      baseAxios
+        .post("/auth/changePassword", { email })
+        .then(() =>
+          Toast.show({
+            type: "success",
+            text1: "Forgot Password",
+            text2: "An email has been sent to reset your password.",
+          })
+        )
+        .catch(() =>
+          Toast.show({
+            type: "error",
+            text1: "Forgot Password",
+            text2: "Failed to send email. Please try again.",
+          })
+        );
     }
   };
 
@@ -95,6 +115,10 @@ const Login = () => {
             <AntDesign name="eyeo" size={24} color="black" />
           </TouchableOpacity>
         </View>
+
+        <TouchableOpacity onPress={handleForgotPassword}>
+          <Text className="text-blue-500 text-right">Forgot password?</Text>
+        </TouchableOpacity>
 
         <TouchableOpacity
           disabled={!isActiveButton}

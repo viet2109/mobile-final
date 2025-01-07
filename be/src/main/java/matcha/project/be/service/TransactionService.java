@@ -59,14 +59,13 @@ public class TransactionService {
         }
 
         // Kiểm tra số dư tài khoản người gửi
-        if (sender.getBalanceTimestamp().compareTo(transferRequestDto.getAmount()) < 0) {
+        if (sender.getBalance().compareTo(transferRequestDto.getAmount()) < 0) {
             throw new IllegalArgumentException("Insufficient funds in sender's account");
         }
 
         // Cập nhật số dư tài khoản người gửi và người nhận
-        System.out.println(sender.getBalanceTimestamp().subtract(transferRequestDto.getAmount()));
-        sender.setBalanceTimestamp(sender.getBalanceTimestamp().subtract(transferRequestDto.getAmount()));  // Giảm số dư người gửi
-        recipient.setBalanceTimestamp(recipient.getBalanceTimestamp().add(transferRequestDto.getAmount())); // Tăng số dư người nhận
+        sender.setBalance(sender.getBalance().subtract(transferRequestDto.getAmount()));  // Giảm số dư người gửi
+        recipient.setBalance(recipient.getBalance().add(transferRequestDto.getAmount())); // Tăng số dư người nhận
 
         // Lưu thay đổi vào cơ sở dữ liệu
         accountDao.save(sender);
@@ -78,7 +77,7 @@ public class TransactionService {
                 .account(sender)
                 .amount(transferRequestDto.getAmount())
                 .description(transferRequestDto.getDescription())
-                .type(TransactionType.INCOME) // Giao dịch xuất tiền từ người gửi
+                .type(TransactionType.TRANSFER) // Giao dịch xuất tiền từ người gửi
                 .status(TransactionStatus.PENDING)
                 .build();
 

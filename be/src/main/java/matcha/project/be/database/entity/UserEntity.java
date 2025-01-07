@@ -28,8 +28,11 @@ public class UserEntity implements Serializable {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "pin")
-    private String pin;
+    @Column(name = "full_name")
+    private String fullName;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
 
     @Embedded
     private SystemField systemField;

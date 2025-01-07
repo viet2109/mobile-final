@@ -2,10 +2,13 @@ package matcha.project.be.service;
 
 import lombok.RequiredArgsConstructor;
 import matcha.project.be.DTO.RegisterDto;
+import matcha.project.be.common.date.SystemFieldHelper;
 import matcha.project.be.common.entity.SystemField;
-import matcha.project.be.database.dao.ProfileDao;
+import matcha.project.be.database.dao.AccountDao;
 import matcha.project.be.database.dao.UserDao;
-import matcha.project.be.database.entity.ProfileEntity;
+import matcha.project.be.database.entity.AccountEntity;
+import matcha.project.be.database.entity.AccountType;
+import matcha.project.be.database.entity.CurrencyType;
 import matcha.project.be.database.entity.UserEntity;
 import matcha.project.be.util.JwtUtil;
 import org.springframework.dao.DuplicateKeyException;
@@ -13,7 +16,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +26,7 @@ public class UserService {
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
     private final CodeVerifyService codeVerifyService;
-    private final ProfileDao profileDao;
+    private final AccountDao accountDao;
 
     public UserEntity createUser(RegisterDto registerDto) {
         if (!codeVerifyService.verifyCode(registerDto.getEmail(), registerDto.getCode())) {
@@ -44,21 +48,21 @@ public class UserService {
         userEntity.setEmail(registerDto.getEmail());
         userEntity.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
-        SystemField systemField = new SystemField();
-        LocalDateTime now = LocalDateTime.now();
-        systemField.setCreatedAt(now);
-        systemField.setUpdatedAt(now);
+        SystemField systemField = SystemFieldHelper.setSystemFieldForInsert();
         userEntity.setSystemField(systemField);
+        userDao.save(userEntity);
 
-        UserEntity userSaved = userDao.save(userEntity);
+        // create account for user
+        AccountEntity accountEntity = new AccountEntity();
+        accountEntity.setUser(userEntity);
+        accountEntity.setAccountType(AccountType.CHECKING);
+        accountEntity.setBalance(BigDecimal.ZERO);
+        accountEntity.setCurrency(CurrencyType.VND);
+        accountEntity.setSystemField(systemField);
+        accountEntity.setAccountNumber(generateCardCode());
 
-        ProfileEntity profileEntity = new ProfileEntity();
-        profileEntity.setEmail(registerDto.getEmail());
-        profileEntity.setUserId(userSaved.getId());
-        profileEntity.setSystemField(systemField);
-
-        profileDao.save(profileEntity);
-        return userSaved;
+        accountDao.save(accountEntity);
+        return userEntity;
     }
 
     public UserEntity getUserByEmail(String email) {
@@ -97,5 +101,17 @@ public class UserService {
             user.setEmail(email);
             userDao.save(user);
         }
+    }
+
+    public String generateCardCode() {
+        Random random = new Random();
+        StringBuilder cardCode = new StringBuilder();
+
+        for (int i = 0; i < 9; i++) {
+            int digit = random.nextInt(10);
+            cardCode.append(digit);
+        }
+
+        return cardCode.toString();
     }
 }

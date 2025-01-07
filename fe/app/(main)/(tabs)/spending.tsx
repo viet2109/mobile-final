@@ -13,7 +13,7 @@ import { TransactionItem } from "../../../types";
 const Spending: React.FC = () => {
   const [selectedMonth, setSelectedMonth] = useState("Jan");
   const [loading, setLoading] = useState(false);
-  const [selectedService, setSelectedService] = useState<"Spending" | "Income" | "Bills" | "Savings">("Spending");
+  const [selectedService, setSelectedService] = useState<"Receive" | "Transfer" | "Bill" | "Saving">("Receive");
   const [transactions, setTransactions] = useState<TransactionItem[]>([]);
   const [filteredTransactions, setFilteredTransactions] = useState<TransactionItem[]>([]);
   const [totalAmount, setTotalAmount] = useState(0);
@@ -58,15 +58,15 @@ const Spending: React.FC = () => {
     }
   }, [selectedMonth]);
 
-  const handleServicePress = (serviceName: "Spending" | "Income" | "Bills" | "Savings") => {
+  const handleServicePress = (serviceName: "Receive" | "Transfer" | "Bill" | "Saving") => {
     setSelectedService(serviceName);
   };
 
   const services = [
-    { name: "Spending", color: "blue", icon: "wallet" },
-    { name: "Income", color: "green", icon: "cash" },
-    { name: "Bills", color: "red", icon: "document" },
-    { name: "Savings", color: "orange", icon: "server" },
+    { name: "Receive", color: "blue", icon: "wallet" },
+    { name: "Transfer", color: "green", icon: "cash" },
+    { name: "Bill", color: "red", icon: "document" },
+    { name: "Saving", color: "orange", icon: "server" },
   ];
 
   return (
