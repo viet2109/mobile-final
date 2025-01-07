@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -58,6 +59,7 @@ public class UserService {
         accountEntity.setBalance(BigDecimal.ZERO);
         accountEntity.setCurrency(CurrencyType.VND);
         accountEntity.setSystemField(systemField);
+        accountEntity.setAccountNumber(generateCardCode());
 
         accountDao.save(accountEntity);
         return userEntity;
@@ -99,5 +101,17 @@ public class UserService {
             user.setEmail(email);
             userDao.save(user);
         }
+    }
+
+    public String generateCardCode() {
+        Random random = new Random();
+        StringBuilder cardCode = new StringBuilder();
+
+        for (int i = 0; i < 9; i++) {
+            int digit = random.nextInt(10);
+            cardCode.append(digit);
+        }
+
+        return cardCode.toString();
     }
 }
