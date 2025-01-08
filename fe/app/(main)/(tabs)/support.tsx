@@ -3,6 +3,7 @@ import {
   ScrollView,
   Text,
   TextInput,
+  useColorScheme,
   View,
 } from "react-native";
 import HeaderBack from "../../../components/HeaderBack";
@@ -23,6 +24,9 @@ const Support = () => {
 
   const apiUrl = process.env.REACT_APP_RUNAI_URL || "";
   const apiToken = process.env.REACT_APP_RUNAI_TOKEN || "";
+
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === "dark";
 
   const scrollViewRef = useRef<ScrollView>(null);
 
@@ -87,7 +91,7 @@ const Support = () => {
         )}
       </ScrollView>
       <View style={styles.container} className="relative">
-        <Entypo name="attachment" size={24} color="black" />
+        <Entypo name="attachment" size={24} color={isDarkMode ? 'white' : 'black'} />
         <TextInput
           style={styles.input}
           placeholder="Type your message"
