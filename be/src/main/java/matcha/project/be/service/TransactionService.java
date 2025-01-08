@@ -32,11 +32,15 @@ public class TransactionService {
         return transactionRepository.findTransactionsByAccountId(accountId);
     }
 
-    public Page<TransactionEntity> findTransactions(Integer accountId, Pageable pageable) {
+    public Page<TransactionEntity> findTransactions(Integer accountId, Boolean isDistinctReceiveAccount, Pageable pageable) {
         Specification<TransactionEntity> spec = Specification
                 .where(null);
         if (accountId != null) {
             spec = spec.and(TransactionSpecification.hasAccount(accountId));
+        }
+
+        if (isDistinctReceiveAccount != null && isDistinctReceiveAccount) {
+            spec = spec.and(TransactionSpecification.distinctByRecipient());
         }
 
         return transactionRepository.findAll(spec, pageable);

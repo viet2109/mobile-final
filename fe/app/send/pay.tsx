@@ -30,6 +30,7 @@ export default function Pay() {
   const router = useRouter();
   const { recipient, purpose, amount } = useLocalSearchParams<Params>();
   const recipientData: Recipient = JSON.parse(recipient || "{}");
+  const [isPaying, setIsPaying] = useState(false); // Trạng thái loading khi đang thanh toán
 
   const [cards, setCards] = useState<Account[]>([]);
   const [isLoading, setIsLoading] = useState(false); // Trạng thái loading
@@ -49,26 +50,28 @@ export default function Pay() {
         cards.find((card) => card.id === selectedCardId)?.accountNumber || "",
     };
 
-    console.log("Transfer Details:", transfer);
-    await sendTransferRequest(transfer)
-      .then(() => {
-        Toast.show({
-          type: "success",
-          text1: "Transfer Successful",
-          text2:
-            "Your transaction has been completed successfully. Please check your account for confirmation.",
-        });
-        setTimeout(() => router.push("/home"), 2000);
-      })
-      .catch((error: any) => {
-        console.log(error);
-        
-        Toast.show({
-          type: "error",
-          text1: "Transfer Failed",
-          text2: `Error: ${error}`,
-        });
+    setIsPaying(true); // Bắt đầu trạng thái loading
+    try {
+      console.log("Transfer Details:", transfer);
+      await sendTransferRequest(transfer);
+      Toast.show({
+        type: "success",
+        text1: "Transfer Successful",
+        text2:
+          "Your transaction has been completed successfully. Please check your account for confirmation.",
       });
+      setTimeout(() => router.push("/home"), 2000);
+    } catch (error: any) {
+      console.log(error);
+      Toast.show({
+        type: "error",
+        text1: "Transfer Failed",
+        text2: `Error: ${error}`,
+      });
+    } finally {
+      setIsPaying(false); // Kết thúc trạng thái loading
+    }
+
   };
 
   const fetchAccounts = async (userId: number) => {
@@ -188,11 +191,18 @@ export default function Pay() {
 
           <TouchableOpacity
             onPress={pay}
-            className="bg-blue-500 mt-10 w-full py-4 px-6 rounded-full"
+            disabled={isPaying} // Vô hiệu hóa nút khi đang thanh toán
+            className={`mt-10 w-full py-4 px-6 rounded-full ${
+              isPaying ? "bg-gray-400" : "bg-blue-500"
+            }`}
           >
-            <Text className="text-white text-lg font-bold text-center">
-              Pay {amount}
-            </Text>
+            {isPaying ? (
+              <ActivityIndicator size="small" color="#fff" />
+            ) : (
+              <Text className="text-white text-lg font-bold text-center">
+                Pay {amount}
+              </Text>
+            )}
           </TouchableOpacity>
         </View>
       </SafeAreaView>
