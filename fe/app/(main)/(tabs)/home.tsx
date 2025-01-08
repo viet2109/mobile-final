@@ -114,7 +114,7 @@ export default function Home() {
     },
   ]);
   return (
-    <>
+    <ScrollView>
       <SafeAreaView className="px-6 relative pt-4 pb-24 bg-blue-600">
         <View className="gap-4 items-center">
           <View className=" flex-row justify-between items-center gap-4">
@@ -345,6 +345,8 @@ export default function Home() {
           </View>
         </ScrollView>
       </View>
-    </>
+
+      <View className="mb-40"></View>
+    </ScrollView>
   );
 }

@@ -10,6 +10,7 @@ import matcha.project.be.database.entity.TransactionEntity;
 import matcha.project.be.database.entity.TransactionStatus;
 import matcha.project.be.database.entity.TransactionType;
 import matcha.project.be.specification.TransactionSpecification;
+import matcha.project.be.util.JwtUtil;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +26,7 @@ public class TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final AccountDao accountDao;
+    private final JwtUtil jwtUtil;
 
     public List<TransactionDTO> getTransactionsByAccountId(Integer accountId) {
         return transactionRepository.findTransactionsByAccountId(accountId);
@@ -39,8 +41,15 @@ public class TransactionService {
 
         return transactionRepository.findAll(spec, pageable);
     }
-    public List<TransactionDTO> getTransactionsByType(TransactionType type) {
-        return transactionRepository.findByType(type);
+    public List<TransactionDTO> getTransactionsByType(TransactionType type, String token) {
+        String email = jwtUtil.getEmailFromJwt(token.substring(7));
+        List<TransactionDTO> transactions = transactionRepository.findByType(type, email);
+        if (type == TransactionType.TRANSFER) {
+            transactions = transactions.stream().filter(transactionDTO -> transactionDTO.getUsername().equals(email)).toList();
+        } else if (type == TransactionType.RECEIVE) {
+            transactions = transactions.stream().filter(transactionDTO -> transactionDTO.getRecipient().equals(email)).toList();
+        }
+        return transactions;
     }
 
     public TransactionEntity transfer(TransferRequestDto transferRequestDto) {
@@ -81,11 +90,23 @@ public class TransactionService {
                 .status(TransactionStatus.PENDING)
                 .build();
 
+        TransactionEntity transactionEntityReceive = TransactionEntity.builder()
+                .recipient(recipient)
+                .account(sender)
+                .amount(transferRequestDto.getAmount())
+                .description(transferRequestDto.getDescription())
+                .type(TransactionType.RECEIVE) // Giao dịch xuất tiền từ người gửi
+                .status(TransactionStatus.PENDING)
+                .build();
+
         // Lưu giao dịch vào cơ sở dữ liệu
         TransactionEntity savedTransaction = transactionRepository.save(transactionEntity);
+        TransactionEntity savedTransactionReceive = transactionRepository.save(transactionEntityReceive);
 
         // Sau khi giao dịch hoàn thành, bạn có thể cập nhật lại trạng thái của giao dịch
         savedTransaction.setStatus(TransactionStatus.SUCCESS); // Giao dịch thành công
+        savedTransactionReceive.setStatus(TransactionStatus.SUCCESS); // Giao dịch thành công
+
         transactionRepository.save(savedTransaction);
 
         // Trả về thông tin giao dịch
