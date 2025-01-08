@@ -49,6 +49,14 @@ export interface TransferRequestDto {
   description: string;
 }
 
+export interface TransferRequesponseDto {
+  sender: Account;
+  recipient: Account;
+  amount: string;
+  type?: string;
+  description: string;
+}
+
 export interface Transaction {
  account:Account;
  id: string;
