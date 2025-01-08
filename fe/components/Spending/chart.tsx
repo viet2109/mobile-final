@@ -1,5 +1,5 @@
 import { LineChart } from "react-native-chart-kit";
-import { Dimensions, Text, View, StyleSheet } from "react-native";
+import { Dimensions, Text, View, StyleSheet, ScrollView } from "react-native";
 
 interface TransactionItem {
   id: string;
@@ -23,23 +23,30 @@ const Chart: React.FC<ChartProps> = ({ transactions }) => {
     );
   }
 
+  // gioi han con 30 gd
+  const recentTransactions = transactions.slice(-30);
+
   // Tạo label và data từ transactions
-  const labels = transactions.map((transaction) => {
+  const labels = recentTransactions.map((transaction) => {
     const [day, month, year] = transaction.transactionDate.split(" ");
     return `${day}-${year}`;
   });
 
-  const data = transactions.map((transaction) => transaction.amount);
+  const data = recentTransactions.map((transaction) => transaction.amount);
 
   const chartData = {
     labels,
     datasets: [{ data }],
   };
+   // chiem 60 don vi chieu rong
+   const chartWidth = Math.max(screenWidth, recentTransactions.length * 60);
 
   return (
+    <ScrollView horizontal showsHorizontalScrollIndicator={true}>
+
     <LineChart
       data={chartData}
-      width={screenWidth - 30}
+      width={chartWidth}
       height={200}
       chartConfig={{
         backgroundColor: "#ffffff",
@@ -54,6 +61,8 @@ const Chart: React.FC<ChartProps> = ({ transactions }) => {
         marginBottom: 20,
       }}
     />
+        </ScrollView>
+
   );
 };
 
