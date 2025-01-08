@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, useColorScheme } from "react-native";
 import { ChatHistory } from "../types";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Markdown from "react-native-markdown-display";
@@ -6,6 +6,8 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 function ChatMessage(props: ChatHistory) {
   const textColor = props.role === "user" ? "white" : "black";
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === 'dark';
   return (
     <View
       style={styles.messageContainer}
@@ -17,7 +19,7 @@ function ChatMessage(props: ChatHistory) {
         <MaterialCommunityIcons
           name="robot-happy-outline"
           size={24}
-          color="black"
+          color={isDarkMode ? 'white' : 'black'}
         />
       )}
       <View
@@ -46,7 +48,7 @@ function ChatMessage(props: ChatHistory) {
         </Markdown>
       </View>
       {props.role === "user" && (
-        <AntDesign name="user" size={24} color="black" />
+        <AntDesign name="user" size={24} color={isDarkMode ? 'white' : 'black'} />
       )}
     </View>
   );

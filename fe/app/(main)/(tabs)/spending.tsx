@@ -16,6 +16,7 @@ import SpendingItem from "../../../components/Spending/spendingList";
 import TransactionService from "../../../service/transactionService";
 import { TransactionItem } from "../../../types";
 import { formatNumber } from "../../../utils/stringFormat";
+import { useGlobalSearchParams } from "expo-router";
 
 const Spending: React.FC = () => {
   const [selectedMonth, setSelectedMonth] = useState("Jan");
@@ -28,6 +29,7 @@ const Spending: React.FC = () => {
     TransactionItem[]
   >([]);
   const [totalAmount, setTotalAmount] = useState(0);
+  const { tab } = useGlobalSearchParams();
 
   const filterTransactionsByMonth = (
     transactions: TransactionItem[],
@@ -36,7 +38,22 @@ const Spending: React.FC = () => {
     return transactions.filter((item) => item.transactionDate.includes(month));
   };
 
+  useEffect(() => {
+    if (tab) {
+      const serviceMap: { [key: string]: "Receive" | "Transfer" | "Bill" | "Saving" } = {
+        Spending: "Receive",
+        Income: "Transfer",
+        Bills: "Bill",
+        Savings: "Saving",
+      };
+      if (typeof tab === 'string') {
+        setSelectedService(serviceMap[tab]);
+      }
+    }
+  }, [tab]);
+
   const calculateTotalAmount = (transactions: TransactionItem[]) => {
+    console.log(tab)
     return transactions.reduce((total, item) => total + item.amount, 0);
   };
 
