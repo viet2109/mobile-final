@@ -32,6 +32,7 @@ public class TransactionController {
     @GetMapping()
     public List<TransactionEntity> getTransactions(
             @RequestParam(required = false) Integer accountId,
+            @RequestParam(defaultValue = "false") Boolean isDistinctReceiveAccount,
             @RequestParam(defaultValue = "transactionDate,desc") String[] sort,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size
@@ -49,7 +50,7 @@ public class TransactionController {
         }
         Pageable pageable = PageRequest.of(page, size, Sort.by(orders));
 
-        return transactionService.findTransactions(accountId, pageable).getContent().stream().distinct().toList();
+        return transactionService.findTransactions(accountId,isDistinctReceiveAccount, pageable).getContent().stream().distinct().toList();
     }
 
     private Sort.Direction getSortDirection(String direction) {

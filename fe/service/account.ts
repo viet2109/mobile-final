@@ -31,7 +31,6 @@ export const getAccountsByQueries = async (
     });
 
     // Xử lý thành công
-    console.log("Accounts fetched successfully:", response.data);
     return response.data;
   } catch (error) {
     // Xử lý lỗi và ném lại nếu cần

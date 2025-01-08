@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Transaction, TransferRequestDto } from "../types";
+import { Transaction, TransferRequesponseDto, TransferRequestDto } from "../types";
 import { baseAxios } from "./configAxios";
 
 export const sendTransferRequest = async (tranfer: TransferRequestDto) => {
@@ -20,12 +20,13 @@ export const sendTransferRequest = async (tranfer: TransferRequestDto) => {
 };
 export interface TransferFilter {
   accountId?: number;
+  isDistinctReceiveAccount?: boolean;
   sort?: string[];
 }
 
 export const getTransfer = async (
   filter: TransferFilter
-): Promise<Transaction[]> => {
+): Promise<TransferRequesponseDto[]> => {
   try {
     const token = await AsyncStorage.getItem("authToken");
 
@@ -39,7 +40,7 @@ export const getTransfer = async (
       },
     });
     // Xử lý kết quả nếu API trả về thành công
-    console.log("Transfer successful:", response.data);
+
     return response.data;
   } catch (error) {
     // Xử lý lỗi

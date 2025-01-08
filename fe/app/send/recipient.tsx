@@ -92,8 +92,11 @@ const Recipient = () => {
     if (!user?.id) return;
     console.log(user.id);
 
-    const data = await getTransfer({ accountId: user.id });
-    setMostRecent(data.map((transfer) => transfer.account));
+    const data = await getTransfer({
+      accountId: user.id,
+      isDistinctReceiveAccount: true,
+    });
+    setMostRecent(data.map((transfer) => transfer.recipient));
   };
 
   const fetchAccounts = useCallback(async (query: string) => {
@@ -157,7 +160,7 @@ const Recipient = () => {
 
     const recipientData: Recipient = {
       accountNumber: recipient.accountNumber || "",
-      username: recipient.user.username || "",
+      username: recipient.user.email.split("@")[0] || "",
     };
     router.push({
       pathname: "/send/purpose",
@@ -214,7 +217,7 @@ const Recipient = () => {
                   <FontAwesome size={20} name="user-o" />
                   <View className="gap-1">
                     <Text className="font-medium text-lg">
-                      {recipient.user.username}
+                      {recipient.user.email.split("@")[0]}
                     </Text>
                     <Text className="text-gray-400">
                       {maskAndFormatAccountNumber(
