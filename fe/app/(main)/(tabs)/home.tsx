@@ -2,7 +2,7 @@
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Material from "@expo/vector-icons/MaterialIcons";
 import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Alert,
   ScrollView,
@@ -10,6 +10,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  ActivityIndicator,
 } from "react-native";
 import CountryFlag from "react-native-country-flag";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -18,13 +19,16 @@ import { Account, User } from "../../../types";
 import { getAccountsByQueries } from "../../../service/account";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { convertCurrency, formatNumber } from "../../../utils/stringFormat";
+import { useFocusEffect } from "@react-navigation/native";
 export default function Home() {
   const [open, setOpen] = useState(false);
   const [account, setAccount] = useState<Account | null>(null);
   const router = useRouter();
   const [amount, setAmount] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState(false);
   const fetchAccounts = async (userId: number) => {
     try {
+      setIsLoading(true);
       const data = await getAccountsByQueries({ userId });
       if (data && data.length > 0) {
         setAccount(data[0]);
@@ -35,27 +39,50 @@ export default function Home() {
     } catch (error) {
       console.error("Error fetching accounts:", error);
       Alert.alert("Error", "Failed to fetch accounts. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  useEffect(() => {
-    const fetchUserAndAccounts = async () => {
-      try {
-        const userString = await AsyncStorage.getItem("user");
-        if (userString) {
-          const parsedUser: User = JSON.parse(userString);
-          await fetchAccounts(parsedUser.id);
-        } else {
-          Alert.alert("Error", "User not found. Please log in.");
-          router.replace("/login");
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchUserAndAccounts = async () => {
+        try {
+          const userString = await AsyncStorage.getItem("user");
+          if (userString) {
+            const parsedUser: User = JSON.parse(userString);
+            await fetchAccounts(parsedUser.id);
+          } else {
+            Alert.alert("Error", "User not found. Please log in.");
+            router.replace("/login");
+          }
+        } catch (error) {
+          console.error("Failed to fetch user from AsyncStorage:", error);
+          Alert.alert("Error", "Failed to fetch user. Please try again.");
         }
-      } catch (error) {
-        console.error("Failed to fetch user from AsyncStorage:", error);
-        Alert.alert("Error", "Failed to fetch user. Please try again.");
-      }
-    };
-    fetchUserAndAccounts();
-  }, [router]);
+      };
+      fetchUserAndAccounts();
+    }, [router]) // Only re-run when the router changes
+  );
+
+  // useEffect(() => {
+  //   const fetchUserAndAccounts = async () => {
+  //     try {
+  //       const userString = await AsyncStorage.getItem("user");
+  //       if (userString) {
+  //         const parsedUser: User = JSON.parse(userString);
+  //         await fetchAccounts(parsedUser.id);
+  //       } else {
+  //         Alert.alert("Error", "User not found. Please log in.");
+  //         router.replace("/login");
+  //       }
+  //     } catch (error) {
+  //       console.error("Failed to fetch user from AsyncStorage:", error);
+  //       Alert.alert("Error", "Failed to fetch user. Please try again.");
+  //     }
+  //   };
+  //   fetchUserAndAccounts();
+  // }, [router]);
 
   const [value, setValue] = useState("VND");
   const [items, setItems] = useState([
@@ -87,7 +114,7 @@ export default function Home() {
     },
   ]);
   return (
-    <>
+    <ScrollView>
       <SafeAreaView className="px-6 relative pt-4 pb-24 bg-blue-600">
         <View className="gap-4 items-center">
           <View className=" flex-row justify-between items-center gap-4">
@@ -164,10 +191,14 @@ export default function Home() {
               setItems={setItems}
             />
           </View>
+          {isLoading ? (
+            <ActivityIndicator size="large" color="#fff" />
+          ) : (
+            <Text className="text-6xl text-white text-center">
+              {formatNumber(amount)}
+            </Text>
+          )}
 
-          <Text className="text-6xl text-white text-center">
-            {formatNumber(amount)}
-          </Text>
           <Text className="text-gray-400">Available Balance</Text>
           <TouchableOpacity className="flex-row justify-center">
             <View className="flex-row items-center gap-2 border border-white rounded-full p-4">
@@ -314,6 +345,8 @@ export default function Home() {
           </View>
         </ScrollView>
       </View>
-    </>
+
+      <View className="mb-40"></View>
+    </ScrollView>
   );
 }

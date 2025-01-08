@@ -15,9 +15,11 @@ public class TransactionDTO {
     private String transactionDate;
     private String status;
     private Integer id;
+    private String recipient;
 
-    public TransactionDTO(String username, BigDecimal amount,String type,Timestamp transactionDate,String status, Integer id) {
+    public TransactionDTO(String username, String recipient, BigDecimal amount,String type,Timestamp transactionDate,String status, Integer id) {
         this.username = username;
+        this.recipient = recipient;
         this.amount = amount;
         this.transactionDate = formatTimestamp(transactionDate);
         this.type = type;

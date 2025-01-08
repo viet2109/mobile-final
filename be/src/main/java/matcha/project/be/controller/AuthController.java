@@ -88,4 +88,20 @@ public class AuthController {
             return ResponseEntity.badRequest().body(responseBody);
         }
     }
+
+    @PostMapping("/changePassword")
+    public ResponseEntity<Object> changePassword(@RequestBody Map<String, String> email) {
+        Map<String, Object> responseBody = new HashMap<>();
+        try {
+            authService.changePassword(email.get("email"));
+            responseBody.put("message", "Password changed successfully");
+            return ResponseEntity.ok(responseBody);
+        } catch (IllegalArgumentException ie) {
+            responseBody.put("error", ie.getMessage());
+            return ResponseEntity.badRequest().body(responseBody);
+        } catch (EmptyResultDataAccessException ee) {
+            responseBody.put("error", ee.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
+        }
+    }
 }

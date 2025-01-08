@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<TransactionEntity, Integer>, JpaSpecificationExecutor<TransactionEntity> {
-    @Query("SELECT new matcha.project.be.DTO.TransactionDTO(u.username, t.amount,CAST(t.type AS string) , t.transactionDate,CAST(t.status AS string), t.id)  " +
+    @Query("SELECT new matcha.project.be.DTO.TransactionDTO(t.account.user.email, t.recipient.user.email, t.amount,CAST(t.type AS string) , t.transactionDate,CAST(t.status AS string), t.id)  " +
             "FROM TransactionEntity t " +
             "JOIN t.account a " +
             "JOIN a.user u " +
@@ -21,10 +21,10 @@ public interface TransactionRepository extends JpaRepository<TransactionEntity, 
     List<TransactionDTO> findTransactionsByAccountId(Integer accountId);
 
 
-    @Query("SELECT new matcha.project.be.DTO.TransactionDTO(u.username, t.amount, CAST(t.type AS string), t.transactionDate, CAST(t.status AS string), t.id) " +
+    @Query("SELECT new matcha.project.be.DTO.TransactionDTO(t.account.user.email, t.recipient.user.email, t.amount, CAST(t.type AS string), t.transactionDate, CAST(t.status AS string), t.id) " +
             "FROM TransactionEntity t " +
             "JOIN t.account a " +
             "JOIN a.user u " +
-            "WHERE t.type = :type AND t.status = 'SUCCESS'")
-    List<TransactionDTO> findByType(@Param("type") TransactionType type);
+            "WHERE t.type = :type AND t.status = 'SUCCESS' AND (t.account.user.email = :email OR t.recipient.user.email = :email)")
+    List<TransactionDTO> findByType(@Param("type") TransactionType type, @Param("email") String email);
 }

@@ -55,6 +55,33 @@ const Login = () => {
     }
   };
 
+  const handleForgotPassword = () => {
+    if (email === "") {
+      Toast.show({
+        type: "info",
+        text1: "Forgot Password",
+        text2: "Please contact our support team to reset your password.",
+      });
+    } else {
+      baseAxios
+        .post("/auth/changePassword", { email })
+        .then(() =>
+          Toast.show({
+            type: "success",
+            text1: "Forgot Password",
+            text2: "An email has been sent to reset your password.",
+          })
+        )
+        .catch(() =>
+          Toast.show({
+            type: "error",
+            text1: "Forgot Password",
+            text2: "Failed to send email. Please try again.",
+          })
+        );
+    }
+  };
+
   return (
     <SafeAreaView className="bg-white flex-1">
       <Toast />
@@ -88,6 +115,10 @@ const Login = () => {
             <AntDesign name="eyeo" size={24} color="black" />
           </TouchableOpacity>
         </View>
+
+        <TouchableOpacity onPress={handleForgotPassword}>
+          <Text className="text-blue-500 text-right">Forgot password?</Text>
+        </TouchableOpacity>
 
         <TouchableOpacity
           disabled={!isActiveButton}

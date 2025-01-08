@@ -65,8 +65,8 @@ public class TransactionController {
     }
 
     @GetMapping("/type/{type}")
-    public ResponseEntity<List<TransactionDTO>> getTransactionsByType(@PathVariable TransactionType type) {
-        List<TransactionDTO> transactions = transactionService.getTransactionsByType(type);
+    public ResponseEntity<List<TransactionDTO>> getTransactionsByType(@PathVariable TransactionType type, @RequestHeader("Authorization") String token){
+        List<TransactionDTO> transactions = transactionService.getTransactionsByType(type, token);
         return ResponseEntity.ok(transactions);
     }
 }

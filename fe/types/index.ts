@@ -39,6 +39,7 @@ export interface TransactionItem {
   status: string;
   type: string;
   icon: string;
+  recipient: string;
 }
 export interface TransferRequestDto {
   sender: string;
