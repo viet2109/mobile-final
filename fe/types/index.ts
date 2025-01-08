@@ -63,6 +63,6 @@ export interface Account {
   id?: number; // `id` có thể là undefined nếu chưa được tạo
   user: User; // Tham chiếu đến đối tượng `UserEntity`
   accountNumber?: string; // Số tài khoản
-  balanceTimestamp?: string; // Dấu thời gian (có thể là dạng chuỗi ISO)
+  balance?: string; // Dấu thời gian (có thể là dạng chuỗi ISO)
   currency?: string; // Loại tiền tệ
 }

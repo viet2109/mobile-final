@@ -28,7 +28,7 @@ export default function Home() {
       const data = await getAccountsByQueries({ userId });
       if (data && data.length > 0) {
         setAccount(data[0]);
-        setAmount(Number(data[0].balanceTimestamp) || 0);
+        setAmount(Number(data[0].balance) || 0);
       } else {
         Alert.alert("Error", "No accounts found.");
       }
