@@ -145,6 +145,7 @@ export default function Home() {
 
           <View className="justify-center">
             <DropDownPicker
+              listMode="SCROLLVIEW"
               open={open}
               value={value}
               items={items}
@@ -198,7 +199,8 @@ export default function Home() {
               {formatNumber(amount)}
             </Text>
           )}
-          <Text className="text-white">Account number: {account?.accountNumber}</Text>
+
+          <Text className="text-gray-400">Available Balance</Text>
           <TouchableOpacity className="flex-row justify-center">
             <View className="flex-row items-center gap-2 border border-white rounded-full p-4">
               <MaterialCommunityIcons
@@ -264,48 +266,47 @@ export default function Home() {
         </View>
         <ScrollView className="h-fit bg-white dark:bg-[#2A2A2A] rounded-xl px-6 mt-4">
           {/* spending*/}
-          <TouchableOpacity className="flex flex-row justify-between w-full  items-center py-4 border-b border-slate-400"
-            onPress={() => router.push({ pathname: 'spending', params: { tab: 'Spending' } })}>
+          <View className="flex flex-row justify-between w-full  items-center py-4 border-b border-slate-400">
             <View className="flex flex-row items-center gap-3">
               <MaterialCommunityIcons
                 name="card-plus"
                 size={18}
                 className="p-2 rounded-full bg-blue-100 !text-blue-500"
               />
-              <Text className="dark:text-gray-400 ">Receive</Text>
+              <Text className="dark:text-gray-400 ">Spending</Text>
             </View>
             <View className="flex-row gap-3">
+              <Text className="text-red-500">-$500</Text>
               <Material
                 name="arrow-forward-ios"
                 className="dark:!text-gray-400"
                 size={14}
               />
             </View>
-          </TouchableOpacity>
+          </View>
 
           {/* income*/}
-          <TouchableOpacity className="flex flex-row justify-between w-full items-center py-4 border-b border-slate-400"
-            onPress={() => router.push({ pathname: 'spending', params: { tab: 'Income' } })}>
+          <View className="flex flex-row justify-between w-full items-center py-4 border-b border-slate-400">
             <View className="flex flex-row items-center gap-3">
               <MaterialCommunityIcons
                 name="database"
                 size={18}
                 className="p-2 rounded-full bg-green-100 !text-green-500"
               />
-              <Text className="dark:text-gray-400 ">Transfer</Text>
+              <Text className="dark:text-gray-400 ">Income</Text>
             </View>
             <View className="flex-row gap-3">
+              <Text className="text-green-500">$3000</Text>
               <Material
                 name="arrow-forward-ios"
                 className="dark:!text-gray-400"
                 size={14}
               />
             </View>
-          </TouchableOpacity>
+          </View>
 
           {/* bills*/}
-          <TouchableOpacity className="flex flex-row justify-between w-full items-center py-4 border-b border-slate-400"
-            onPress={() => router.push({ pathname: 'spending', params: { tab: 'Bills' } })}>
+          <View className="flex flex-row justify-between w-full items-center py-4 border-b border-slate-400">
             <View className="flex flex-row items-center gap-3">
               <Ionicons
                 name="newspaper-outline"
@@ -315,16 +316,17 @@ export default function Home() {
               <Text className="dark:text-gray-400 ">Bills</Text>
             </View>
             <View className="flex-row gap-3">
+              <Text className="text-red-500">-$500</Text>
               <Material
                 name="arrow-forward-ios"
                 className="dark:!text-gray-400"
                 size={14}
               />
             </View>
-          </TouchableOpacity>
+          </View>
 
           {/* saving*/}
-          <TouchableOpacity className="flex flex-row justify-between w-full items-center py-4" onPress={() => router.push({ pathname: 'spending', params: { tab: 'Savings' } })}>
+          <View className="flex flex-row justify-between w-full items-center py-4">
             <View className="flex flex-row items-center gap-3">
               <Material
                 name="savings"
@@ -334,13 +336,14 @@ export default function Home() {
               <Text className="dark:text-gray-400">Savings</Text>
             </View>
             <View className="flex-row gap-3">
+              <Text className="text-yellow-500">$500</Text>
               <Material
                 name="arrow-forward-ios"
                 className="dark:!text-gray-400"
                 size={14}
               />
             </View>
-          </TouchableOpacity>
+          </View>
         </ScrollView>
       </View>
 
