@@ -13,9 +13,6 @@ export default function TabLayout() {
         headerShown: false,
         unmountOnBlur: true,
         tabBarHideOnKeyboard: true,
-        // tabBarStyle: {
-        //   backgroundColor: colorScheme === "dark" ? "#121212" : "#f2f2f2",
-        // },
       }}
       tabBar={(props) => {
         if (path === "/support") return null;

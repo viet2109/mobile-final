@@ -9,6 +9,7 @@ const Scanner: React.FC = () => {
   const appState = useRef(AppState.currentState);
   const [, requestPermission] = useCameraPermissions();
   const [, setIsLoading] = useState<boolean>(true);
+
   const router = useRouter();
   useEffect(() => {
     (async () => {
